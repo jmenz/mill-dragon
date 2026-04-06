@@ -1,0 +1,23 @@
+# Halshow settings
+# This file is generated automatically.
+wm geometry . 700x475+947+155
+placeFrames 0.3691860465116279
+set ::ratio 0.3691860465116279
+set ::old_w_leftf 160
+set ::watchlist {
+    pin+qtdragon.slider-override-spindle
+    pin+joint.2.pos-cmd
+    pin+qtdragon.spindle-lift-on
+    pin+qtdragon.eoffset-count
+    pin+qtdragon.eoffset-spindle-count
+    pin+axis.z.eoffset-counts
+    pin+axis.z.eoffset-enable
+    pin+axis.z.eoffset-clear
+}
+set ::workmode watchhal
+set ::watchInterval 100
+set ::col1_width 100
+set ::ffmts 
+set ::ifmts 
+set ::alwaysOnTop 0
+set ::autoSaveWatchlist 1

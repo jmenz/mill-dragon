@@ -4,7 +4,6 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 
 
 # loadrt hostmot2
-#loadrt hm2_eth board_ip=192.168.1.121 config="sserial_port_0=003001"
 # loadrt hm2_eth board_ip=192.168.1.121
 
 # setp hm2_7i95.0.watchdog.timeout_ns 2500000
@@ -13,7 +12,7 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 # addf hm2_7i95.0.read        servo-thread
 addf motion-command-handler servo-thread
 addf motion-controller      servo-thread
-# addf hm2_7i95.0.write       servo-thread
+#addf hm2_7i95.0.write       servo-thread
 
 
 
@@ -39,9 +38,10 @@ net estop-out <= iocontrol.0.user-enable-out
 net estop-out => iocontrol.0.emc-enable-in
 # net estop-out => hal_gpio.GPIO20-out
 
-loadusr -W hal_manualtoolchange
-net tool-change iocontrol.0.tool-change => hal_manualtoolchange.change
-net tool-changed iocontrol.0.tool-changed <= hal_manualtoolchange.changed
-net tool-number iocontrol.0.tool-prep-number => hal_manualtoolchange.number
-net tool-prepare-loopback iocontrol.0.tool-prepare => iocontrol.0.tool-prepared
+net tool-change-request    <= iocontrol.0.tool-change
+net tool-change-confirmed  => iocontrol.0.tool-changed
+net tool-number            <= iocontrol.0.tool-prep-number
+
+#  ---ignore tool prepare requests---
+net tool-prepare-loopback   iocontrol.0.tool-prepare      =>  iocontrol.0.tool-prepared
 

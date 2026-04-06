@@ -1,7 +1,7 @@
 [DIALOG_GEOMETRY]
 AboutDialog-geometry = 910 539 300 150
-LncMessage-geometry = 910 539 340 118
-ToolChangeDialog-geometry = default
+LncMessage-geometry = 910 539 340 102
+ToolChangeDialog-geometry = 910 539 340 239
 basicProbeHelpDialog-geometry = default
 axisToolButtonDialog_CALCULATOR = 910 539 472 376
 CalculatorDialog-geometry = 910 539 472 376
@@ -23,10 +23,10 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /home/cnc/linuxcnc/nc_files
-last_loaded_file = /home/cnc/linuxcnc/nc_files/t.ngc
-style_QSS_Path = /usr/share/qtvcp/screens/qtdragon_hd/dark_grey.qss
-RecentPath_0 = /home/cnc/linuxcnc/nc_files/t.ngc
+last_loaded_directory = /tmp/emcBCD-cf7yxl7r.d
+last_loaded_file = /tmp/emcBCD-cf7yxl7r.d/face.ngc
+style_QSS_Path = /usr/share/qtvcp/screens/qtdragon_hd/argentium.qss
+RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
 RecentSavedPath_0 = /home/cnc/linuxcnc/nc_files/t.ngc
 
@@ -94,7 +94,7 @@ gcodegraphics-user-lat = 0.0
 gcodegraphics-user-lon = 0.0
 
 [CUSTOM_FORM_ENTRIES]
-Tool to load = 1
+Tool to load = 0
 Laser X = 100.0
 Laser Y = -20.0
 Sensor X = 10.0
@@ -110,9 +110,9 @@ Max Probe = 10.0
 Retract Distance = 10.0
 Z Safe Travel = 10.0
 Eoffset count = 30
-External offsets = False
-Reload program = False
-Reload tool = False
+External offsets = True
+Reload program = True
+Reload tool = True
 Use keyboard = False
 Use tool sensor = False
 Use tool touchplate = False
