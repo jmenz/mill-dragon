@@ -49,10 +49,11 @@ class TouchyLineEdit(QtWidgets.QLineEdit):
             super().mousePressEvent(event)
             return
             
-        dialog = TouchyNumpad("NGCGUI Input", self)
-
-        if self.text():
-            dialog.display.setText(self.text())
+        dialog = TouchyNumpad("NGCGUI Input", self.window())
+        
+        val = self.text()
+        if val and val != "None":
+            dialog.display.setText(val)
             
         if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
             self.setText(str(dialog.value))
