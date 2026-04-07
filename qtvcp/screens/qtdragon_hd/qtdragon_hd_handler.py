@@ -497,7 +497,9 @@ class HandlerClass:
 
         from lib.touchy_numpad import TouchyEventFilter
         self.touchy_filter = TouchyEventFilter(self.w)
-        for utility in [self.facing, self.hole_circle, self.hole_enlarge, self.auto_measure]:
+        utils = [u for u in [self.facing, self.hole_circle, getattr(self, 'hole_enlarge', None), self.auto_measure] if u is not None]
+        
+        for utility in utils:
             for lineedit in utility.findChildren(QtWidgets.QLineEdit):
                 lineedit.installEventFilter(self.touchy_filter)
                 lineedit.setFocusPolicy(QtCore.Qt.NoFocus)

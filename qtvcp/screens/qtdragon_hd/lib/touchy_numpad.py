@@ -75,7 +75,8 @@ class TouchyLineEdit(QtWidgets.QLineEdit):
             super().mousePressEvent(event)
             return
             
-        dialog = TouchyNumpad("Input Value", self.window())
+        title = self.property('touchy_title') or self.accessibleName() or "Input Value"
+        dialog = TouchyNumpad(title, self.window())
         
         try:
             val = self.text()
@@ -94,7 +95,9 @@ class TouchyEventFilter(QtCore.QObject):
         if event.type() == QtCore.QEvent.MouseButtonPress:
             if isinstance(receiver, QtWidgets.QLineEdit) and not receiver.isReadOnly():
 
-                dialog = TouchyNumpad("Input Value", receiver.window())
+                title = receiver.property('touchy_title') or receiver.accessibleName() or "Input Value"
+                
+                dialog = TouchyNumpad(title, receiver.window())
                 val = receiver.text()
                 try:
                     float(val)

@@ -91,7 +91,7 @@ class OnePg(QWidget):
         # fill in parameter values
         for key, val in list(self.fset.sub_data.ndict.items()):
             w = self.new_label(30, str(key))
-            v = self.new_lineedit(key, val[1])
+            v = self.new_lineedit(key, val[1], val[2])
             c = self.new_label(100, val[2])
             if key <= 10:
                 hbox = QHBoxLayout()
@@ -149,10 +149,11 @@ class OnePg(QWidget):
         lbl.setFixedHeight(30)
         return lbl
 
-    def new_lineedit(self, key, data):
+    def new_lineedit(self, key, data, title):
         # QRegExp('^[+-]?((\d+(\.\d{,4})?)|(\.\d{,4}))$' allows max 4 digits after the decimal
         valid = QtGui.QRegExpValidator(QRegExp(r'^[+-]?((\d+(\.\d{,4})?)|(\.\d{,4}))$'))
         lineedit = TouchyLineEdit(str(data))
+        lineedit.setProperty('touchy_title', title)
         lineedit.parm_no = key
         lineedit.setMaxLength(10)
         lineedit.setFixedWidth(70)
