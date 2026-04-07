@@ -1,6 +1,6 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 700x475+947+155
+wm geometry . 700x475+463+153
 placeFrames 0.3691860465116279
 set ::ratio 0.3691860465116279
 set ::old_w_leftf 160
@@ -13,6 +13,7 @@ set ::watchlist {
     pin+axis.z.eoffset-counts
     pin+axis.z.eoffset-enable
     pin+axis.z.eoffset-clear
+    pin+spindle.0.speed-out
 }
 set ::workmode watchhal
 set ::watchInterval 100

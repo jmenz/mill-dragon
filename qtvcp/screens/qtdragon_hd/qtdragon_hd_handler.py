@@ -1,4 +1,5 @@
 import os, time
+import linuxcnc
 from PyQt5 import QtCore, QtWidgets, QtGui
 from qtvcp.widgets.gcode_editor import GcodeEditor as GCODE
 from qtvcp.widgets.mdi_line import MDILine as MDI_WIDGET
@@ -136,23 +137,6 @@ class HandlerClass:
         STATUS.connect('override-limits-changed', lambda w, state, data: self._check_override_limits(state, data))
         STATUS.connect('graphics-gcode-properties', lambda w, d: self.update_gcode_properties(d))
 
-        self.html = """<html>
-<head>
-<title>Test page for the download:// scheme</title>
-</head>
-<body>
-<h1>Setup Tab</h1>
-<p>If you select a file with .html as a file ending, it will be shown here..</p>
-<li><a href="http://linuxcnc.org/docs/devel/html/">Documents online</a></li>
-<li><a href="http://linuxcnc.org/docs/2.9/html/gui/qtdragon.html">QtDragon online</a></li>
-<li><a href="file://%s">Local files</a></li>
-<img src="file://%s" alt="lcnc_swoop" />
-<hr />
-</body>
-</html>
-"""%(  os.path.expanduser('~/linuxcnc'),
-        os.path.join(paths.IMAGEDIR,'lcnc_swoop.png'))
-
 
     def class_patch__(self):
         # override file manager load button
@@ -163,6 +147,7 @@ class HandlerClass:
         NgcGui.check_linuxcnc_paths_fail = self.check_linuxcnc_paths_fail_override
 
     def initialized__(self):
+        self.w.btn_setup.hide()# maybe temp
         self.init_pins()
         self.init_preferences()
         self.init_widgets()
@@ -176,6 +161,11 @@ class HandlerClass:
         self.w.btn_dimensions.setChecked(True)
         self.w.page_buttonGroup.buttonClicked.connect(self.main_tab_changed)
         self.w.filemanager_usb.showMediaDir(quiet = True)
+
+        self.w.gauge_spindle.mousePressEvent = self.show_spindle_dialog
+        self.w.action_spindle_rev.clicked.connect(self.spindle_rev)
+        self.w.action_spindle_fwd.clicked.connect(self.spindle_fwd)
+        self.spindle_rpm_val = float(INFO.get_error_safe_setting('DISPLAY', 'DEFAULT_SPINDLE_0_SPEED', "1000"))
 
     # hide or initiate 4th/5th AXIS dro/jog
         flag = False
@@ -243,6 +233,15 @@ class HandlerClass:
         message = "--- QtDragon_hd Version {} on Linuxcnc {} ---".format(
             VERSION, STATUS.get_linuxcnc_version())
         STATUS.emit('update-machine-log', message, None)
+
+    def show_spindle_dialog(self, event):
+        # Викликаємо вбудований калькулятор (CALCULATOR) або просте поле вводу (ENTRY)
+        mess = {
+            'NAME': 'CALCULATOR', 
+            'TITLE': 'Set Spindle RPM', 
+            'ID': '_spindle_rpm_'
+        }
+        ACTION.CALL_DIALOG(mess)
 
     #############################
     # SPECIAL FUNCTIONS SECTION #
@@ -605,6 +604,7 @@ class HandlerClass:
         wait_code = bool(message.get('ID') == '_wait_resume_')
         unhome_code = bool(message.get('ID') == '_unhome_')
         overwrite = bool(message.get('ID') == '_overwrite_')
+        spindle_code = bool(message.get('ID') == '_spindle_rpm_')
         if plate_code and name == 'MESSAGE' and rtn is True:
             self.touchoff('touchplate')
         elif sensor_code and name == 'MESSAGE' and rtn is True:
@@ -621,6 +621,20 @@ class HandlerClass:
                 self.do_file_copy()
             else:
                 self.add_status("File not copied", CRITICAL)
+        elif spindle_code and rtn is not None:
+            self.spindle_rpm_val = float(rtn)
+            
+            STATUS.stat.poll() 
+            if STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_FORWARD:
+                self.spindle_fwd()
+            elif STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_REVERSE:
+                self.spindle_rev()
+
+    def spindle_fwd(self):
+        ACTION.SET_SPINDLE_ROTATION(linuxcnc.SPINDLE_FORWARD, self.spindle_rpm_val, 0)
+
+    def spindle_rev(self):
+        ACTION.SET_SPINDLE_ROTATION(linuxcnc.SPINDLE_REVERSE, self.spindle_rpm_val, 0)
 
     def user_system_changed(self, data):
         sys = self.system_list[int(data) - 1]

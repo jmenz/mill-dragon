@@ -6,6 +6,7 @@ basicProbeHelpDialog-geometry = default
 axisToolButtonDialog_CALCULATOR = 910 539 472 376
 CalculatorDialog-geometry = 910 539 472 376
 FileDialog-geometry = 641 346 604 428
+axisToolButtonDialog_ENTRY = 910 539 300 150
 
 [DIALOG_OPTIONS]
 EntryDialog_play_sound = True
@@ -23,9 +24,9 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /tmp/emcBCD-cf7yxl7r.d
-last_loaded_file = /tmp/emcBCD-cf7yxl7r.d/face.ngc
-style_QSS_Path = /usr/share/qtvcp/screens/qtdragon_hd/argentium.qss
+last_loaded_directory = /home/cnc/linuxcnc/configs/mill-dragon
+last_loaded_file = /home/cnc/linuxcnc/configs/mill-dragon/0_tmp
+style_QSS_Path = /usr/share/qtvcp/screens/qtdragon_hd/dark_grey.qss
 RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
 RecentSavedPath_0 = /home/cnc/linuxcnc/nc_files/t.ngc
@@ -116,9 +117,9 @@ Reload tool = True
 Use keyboard = False
 Use tool sensor = False
 Use tool touchplate = False
-Run from line = False
+Run from line = True
 Use virtual keyboard = True
-Use camera = False
+Use camera = True
 Use alpha display mode = False
 Inhibit display mouse selection = True
 Camview xscale = 100

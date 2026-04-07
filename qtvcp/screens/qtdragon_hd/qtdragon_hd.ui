@@ -71,7 +71,7 @@
      <number>4</number>
     </property>
     <item>
-     <widget class="ScreenOptions" name="screen_options">
+     <widget class="ScreenOptions" name="screen_options" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -298,7 +298,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="GcodeEditor" name="gcode_viewer">
+                 <widget class="GcodeEditor" name="gcode_viewer" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                     <horstretch>0</horstretch>
@@ -710,6 +710,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="btn_setup">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -729,7 +732,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>SETUPTTTTT</string>
+                 <string>SETUP</string>
                 </property>
                 <property name="checkable">
                  <bool>true</bool>
@@ -1724,7 +1727,7 @@ View</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="GCodeGraphics" name="gcodegraphics">
+                   <widget class="GCodeGraphics" name="gcodegraphics" native="true">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                       <horstretch>0</horstretch>
@@ -1787,7 +1790,7 @@ View</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="FileManager" name="filemanager_usb"/>
+                   <widget class="FileManager" name="filemanager_usb" native="true"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -2059,10 +2062,10 @@ GCODE</string>
                    </layout>
                   </item>
                   <item>
-                   <widget class="FileManager" name="filemanager"/>
+                   <widget class="FileManager" name="filemanager" native="true"/>
                   </item>
                   <item>
-                   <widget class="GcodeEditor" name="gcode_editor">
+                   <widget class="GcodeEditor" name="gcode_editor" native="true">
                     <property name="auto_show_mdi_status" stdset="0">
                      <bool>false</bool>
                     </property>
@@ -2346,7 +2349,7 @@ ROTATION</string>
                      <bool>false</bool>
                     </attribute>
                     <attribute name="verticalHeaderDefaultSectionSize">
-                     <number>24</number>
+                     <number>25</number>
                     </attribute>
                     <attribute name="verticalHeaderHighlightSections">
                      <bool>true</bool>
@@ -2838,7 +2841,7 @@ LOG</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="CamView" name="camview"/>
+                   <widget class="CamView" name="camview" native="true"/>
                   </item>
                   <item>
                    <widget class="QWidget" name="widget_cam_controls" native="true">
@@ -7282,7 +7285,7 @@ OFF</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="StateLED" name="hal_led_home_x">
+                 <widget class="StateLED" name="hal_led_home_x" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -7304,10 +7307,10 @@ OFF</string>
                   <property name="halpin_option" stdset="0">
                    <bool>false</bool>
                   </property>
-                  <property name="diameter">
+                  <property name="diameter" stdset="0">
                    <number>15</number>
                   </property>
-                  <property name="color">
+                  <property name="color" stdset="0">
                    <color>
                     <red>0</red>
                     <green>255</green>
@@ -7368,7 +7371,7 @@ OFF</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="StateLED" name="hal_led_home_y">
+                 <widget class="StateLED" name="hal_led_home_y" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -7390,10 +7393,10 @@ OFF</string>
                   <property name="halpin_option" stdset="0">
                    <bool>false</bool>
                   </property>
-                  <property name="diameter">
+                  <property name="diameter" stdset="0">
                    <number>15</number>
                   </property>
-                  <property name="color">
+                  <property name="color" stdset="0">
                    <color>
                     <red>0</red>
                     <green>255</green>
@@ -7457,7 +7460,7 @@ OFF</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="StateLED" name="hal_led_home_z">
+                 <widget class="StateLED" name="hal_led_home_z" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -7479,10 +7482,10 @@ OFF</string>
                   <property name="halpin_option" stdset="0">
                    <bool>false</bool>
                   </property>
-                  <property name="diameter">
+                  <property name="diameter" stdset="0">
                    <number>15</number>
                   </property>
-                  <property name="color">
+                  <property name="color" stdset="0">
                    <color>
                     <red>0</red>
                     <green>255</green>
@@ -7564,7 +7567,7 @@ OFF</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="StateLED" name="hal_led_home_4">
+                    <widget class="StateLED" name="hal_led_home_4" native="true">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -7586,10 +7589,10 @@ OFF</string>
                      <property name="halpin_option" stdset="0">
                       <bool>false</bool>
                      </property>
-                     <property name="diameter">
+                     <property name="diameter" stdset="0">
                       <number>15</number>
                      </property>
-                     <property name="color">
+                     <property name="color" stdset="0">
                       <color>
                        <red>0</red>
                        <green>255</green>
@@ -7669,7 +7672,7 @@ OFF</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="StateLED" name="hal_led_home_5">
+                  <widget class="StateLED" name="hal_led_home_5" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -7691,10 +7694,10 @@ OFF</string>
                    <property name="halpin_option" stdset="0">
                     <bool>false</bool>
                    </property>
-                   <property name="diameter">
+                   <property name="diameter" stdset="0">
                     <number>15</number>
                    </property>
-                   <property name="color">
+                   <property name="color" stdset="0">
                     <color>
                      <red>0</red>
                      <green>255</green>
@@ -7759,7 +7762,7 @@ OFF</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="LED" name="hal_led_probe">
+                 <widget class="LED" name="hal_led_probe" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -7781,10 +7784,10 @@ OFF</string>
                   <property name="pin_name" stdset="0">
                    <string>led-probe</string>
                   </property>
-                  <property name="diameter">
+                  <property name="diameter" stdset="0">
                    <number>15</number>
                   </property>
-                  <property name="color">
+                  <property name="color" stdset="0">
                    <color>
                     <red>0</red>
                     <green>255</green>
@@ -7815,7 +7818,7 @@ OFF</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="StateLED" name="hal_led_atspeed">
+                 <widget class="StateLED" name="hal_led_atspeed" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -7840,7 +7843,7 @@ OFF</string>
                   <property name="halpin_option" stdset="0">
                    <bool>true</bool>
                   </property>
-                  <property name="color">
+                  <property name="color" stdset="0">
                    <color>
                     <red>0</red>
                     <green>255</green>
@@ -7901,7 +7904,7 @@ OFF</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="LED" name="hal_led_limit">
+                 <widget class="LED" name="hal_led_limit" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -7926,7 +7929,7 @@ OFF</string>
                   <property name="pin_name" stdset="0">
                    <string>led-limits-tripped</string>
                   </property>
-                  <property name="color">
+                  <property name="color" stdset="0">
                    <color>
                     <red>85</red>
                     <green>255</green>
@@ -7981,7 +7984,7 @@ OFF</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="StateLED" name="stateled">
+                 <widget class="StateLED" name="stateled" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -14933,7 +14936,7 @@ ZERO</string>
               <number>0</number>
              </property>
              <item>
-              <widget class="VirtualKeyboard" name="virtualkeyboard">
+              <widget class="VirtualKeyboard" name="virtualkeyboard" native="true">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -16245,7 +16248,7 @@ ANGULAR</string>
                    <number>2</number>
                   </property>
                   <item>
-                   <widget class="Gauge" name="gauge_spindle">
+                   <widget class="Gauge" name="gauge_spindle" native="true">
                     <property name="halpin_option" stdset="0">
                      <bool>false</bool>
                     </property>
@@ -16348,9 +16351,6 @@ ANGULAR</string>
                         <number>6</number>
                        </property>
                        <property name="is_spindle_rev_status" stdset="0">
-                        <bool>true</bool>
-                       </property>
-                       <property name="spindle_rev_action" stdset="0">
                         <bool>true</bool>
                        </property>
                       </widget>
@@ -16468,9 +16468,6 @@ ANGULAR</string>
                         <number>6</number>
                        </property>
                        <property name="is_spindle_fwd_status" stdset="0">
-                        <bool>true</bool>
-                       </property>
-                       <property name="spindle_fwd_action" stdset="0">
                         <bool>true</bool>
                        </property>
                       </widget>
@@ -18059,7 +18056,7 @@ ANGULAR</string>
   <slot>btn_pause_clicked()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="mode_buttonGroup"/>
   <buttongroup name="page_buttonGroup"/>
+  <buttongroup name="mode_buttonGroup"/>
  </buttongroups>
 </ui>
