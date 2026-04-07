@@ -494,14 +494,32 @@ class HandlerClass:
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
 
         receiver_parent = receiver
+        in_ngcgui = False
         while receiver_parent is not None:
             if isinstance(receiver_parent, QtWidgets.QDialog):
                 return
+            if hasattr(self, 'ngcgui') and receiver_parent == self.ngcgui:
+                in_ngcgui = True
             receiver_parent = receiver_parent.parent()
 
         if isinstance(receiver, QtWidgets.QLineEdit):
             if not receiver.isReadOnly():
-                self.w.stackedWidget_dro.setCurrentIndex(1)
+                if in_ngcgui:
+                    # Запам'ятовуємо поле
+                    self.active_ngcgui_field = receiver
+                    
+                    self.w.btn_main.setFocus()
+                    
+                    mess = {
+                        'NAME': 'CALCULATOR', 
+                        'TITLE': 'NGCGUI Input', 
+                        'ID': '_ngcgui_input_'
+                    }
+                    
+                    QtCore.QTimer.singleShot(50, lambda m=mess: ACTION.CALL_DIALOG(m))
+                else:
+                    # Для всіх інших полів показуємо велику клавіатуру
+                    self.w.stackedWidget_dro.setCurrentIndex(1)
         elif isinstance(receiver, QtWidgets.QTableView):
             self.w.stackedWidget_dro.setCurrentIndex(1)
         elif isinstance(receiver, QtWidgets.QCommonStyle):
@@ -612,6 +630,7 @@ class HandlerClass:
         unhome_code = bool(message.get('ID') == '_unhome_')
         overwrite = bool(message.get('ID') == '_overwrite_')
         spindle_code = bool(message.get('ID') == '_spindle_rpm_')
+        ngcgui_code = bool(message.get('ID') == '_ngcgui_input_')
         if plate_code and name == 'MESSAGE' and rtn is True:
             self.touchoff('touchplate')
         elif sensor_code and name == 'MESSAGE' and rtn is True:
@@ -636,6 +655,17 @@ class HandlerClass:
                 self.spindle_fwd()
             elif STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_REVERSE:
                 self.spindle_rev()
+        elif ngcgui_code and rtn is not None:
+            if hasattr(self, 'active_ngcgui_field') and self.active_ngcgui_field:
+                self.active_ngcgui_field.setText(str(rtn))
+
+                self.active_ngcgui_field.editingFinished.emit()
+                self.active_ngcgui_field.returnPressed.emit()
+                
+                self.active_ngcgui_field.clearFocus()
+                self.w.btn_main.setFocus()
+                
+                self.active_ngcgui_field = None
 
     def spindle_fwd(self):
         ACTION.SET_SPINDLE_ROTATION(linuxcnc.SPINDLE_FORWARD, self.spindle_rpm_val, 0)
