@@ -25,8 +25,8 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /tmp
-last_loaded_file = /tmp/spindle_warmupctpox0di.ngc
+last_loaded_directory = /home/cnc/linuxcnc/configs/mill-dragon
+last_loaded_file = /home/cnc/linuxcnc/configs/mill-dragon/0_tmp
 style_QSS_Path = /usr/share/qtvcp/screens/qtdragon_hd/dark_grey.qss
 RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files

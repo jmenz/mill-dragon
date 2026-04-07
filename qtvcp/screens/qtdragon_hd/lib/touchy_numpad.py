@@ -48,7 +48,15 @@ class TouchyNumpad(QtWidgets.QDialog):
     def on_click(self, text):
         current = self.display.text()
         if text == 'OK':
-            self.value = current if current else "0"
+            val = current
+
+            if not val or val in ('.', '-', '-.'):
+                val = "0"
+            
+            if val.endswith('.'):
+                val = val[:-1]
+            
+            self.value = val
             self.accept()
         elif text == 'ESC':
             self.reject()
@@ -61,7 +69,10 @@ class TouchyNumpad(QtWidgets.QDialog):
                 self.display.setText('-' + current)
         elif text == '.':
             if '.' not in current:
-                self.display.setText(current + '.')
+                if not current or current == '-':
+                    self.display.setText(current + '0.')
+                else:
+                    self.display.setText(current + '.')
         else:
             self.display.setText(current + text)
 
