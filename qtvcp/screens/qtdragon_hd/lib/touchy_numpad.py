@@ -64,3 +64,46 @@ class TouchyNumpad(QtWidgets.QDialog):
                 self.display.setText(current + '.')
         else:
             self.display.setText(current + text)
+
+class TouchyLineEdit(QtWidgets.QLineEdit):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setFocusPolicy(QtCore.Qt.NoFocus)
+
+    def mousePressEvent(self, event):
+        if self.isReadOnly():
+            super().mousePressEvent(event)
+            return
+            
+        dialog = TouchyNumpad("Input Value", self.window())
+        
+        try:
+            val = self.text()
+            float(val)
+            dialog.display.setText(val)
+        except (ValueError, TypeError):
+            pass
+            
+        if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
+            self.setText(str(dialog.value))
+            self.editingFinished.emit()
+            self.returnPressed.emit()
+
+class TouchyEventFilter(QtCore.QObject):
+    def eventFilter(self, receiver, event):
+        if event.type() == QtCore.QEvent.MouseButtonPress:
+            if isinstance(receiver, QtWidgets.QLineEdit) and not receiver.isReadOnly():
+
+                dialog = TouchyNumpad("Input Value", receiver.window())
+                val = receiver.text()
+                try:
+                    float(val)
+                    dialog.display.setText(val)
+                except:
+                    pass
+                if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
+                    receiver.setText(str(dialog.value))
+                    receiver.editingFinished.emit()
+                    receiver.returnPressed.emit()
+                return True 
+        return super().eventFilter(receiver, event)

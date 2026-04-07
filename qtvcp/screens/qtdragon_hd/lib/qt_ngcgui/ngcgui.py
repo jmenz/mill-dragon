@@ -22,7 +22,7 @@ import hashlib
 import datetime
 import shutil
 from PyQt5 import QtGui, QtWidgets, QtCore, uic
-from lib.touchy_numpad import TouchyNumpad
+from lib.touchy_numpad import TouchyLineEdit
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtWidgets import QFileDialog, QHBoxLayout, QVBoxLayout, QLabel, QWidget, QLineEdit, QMessageBox
 from qtvcp.core import Action, Info, Path
@@ -38,32 +38,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 INTERP_SUB_PARAMS = 30
 PROG_NAME  = os.path.splitext(os.path.basename(__file__))[0]
 LABEL_ID = 0
-
-class TouchyLineEdit(QtWidgets.QLineEdit):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setFocusPolicy(QtCore.Qt.NoFocus)
-
-    def mousePressEvent(self, event):
-        if self.isReadOnly():
-            super().mousePressEvent(event)
-            return
-            
-        dialog = TouchyNumpad("NGCGUI Input", self.window())
-        
-        try:
-            val = self.text()
-            float(val)
-            dialog.display.setText(val)
-        except (ValueError, TypeError):
-            # Якщо там "None", текст або просто порожньо — залишаємо діалог чистим
-            pass
-            
-        if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
-            self.setText(str(dialog.value))
-            
-            self.editingFinished.emit()
-            self.returnPressed.emit()
 
 class OnePg(QWidget):
     def __init__(self, page, pre_file, sub_file, pst_file):

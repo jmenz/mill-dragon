@@ -1,6 +1,6 @@
 [DIALOG_GEOMETRY]
 AboutDialog-geometry = 910 539 300 150
-LncMessage-geometry = 910 539 232 124
+LncMessage-geometry = 910 539 340 102
 ToolChangeDialog-geometry = 910 539 340 239
 basicProbeHelpDialog-geometry = default
 axisToolButtonDialog_CALCULATOR = 910 539 472 376
@@ -25,8 +25,8 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /home/cnc/linuxcnc/configs/mill-dragon
-last_loaded_file = /home/cnc/linuxcnc/configs/mill-dragon/0_tmp
+last_loaded_directory = /tmp
+last_loaded_file = /tmp/spindle_warmupctpox0di.ngc
 style_QSS_Path = /usr/share/qtvcp/screens/qtdragon_hd/dark_grey.qss
 RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
@@ -96,7 +96,7 @@ gcodegraphics-user-lat = 0.0
 gcodegraphics-user-lon = 0.0
 
 [CUSTOM_FORM_ENTRIES]
-Tool to load = 1
+Tool to load = 0
 Laser X = 100.0
 Laser Y = -20.0
 Sensor X = 10.0
@@ -131,7 +131,7 @@ Camview cam number = 0
 Probe tool = 0
 Probe diameter = 4
 Probe rapid = 10
-Probe feed = 10
+Probe feed = 20
 Probe search = 10
 Probe max travel = 10
 Probe max z = 2

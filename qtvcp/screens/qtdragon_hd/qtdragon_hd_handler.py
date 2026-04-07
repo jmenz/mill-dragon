@@ -495,6 +495,13 @@ class HandlerClass:
         self.w.layout_workpiece.addWidget(self.auto_measure)
         self.auto_measure._hal_init()
 
+        from lib.touchy_numpad import TouchyEventFilter
+        self.touchy_filter = TouchyEventFilter(self.w)
+        for utility in [self.facing, self.hole_circle, self.hole_enlarge, self.auto_measure]:
+            for lineedit in utility.findChildren(QtWidgets.QLineEdit):
+                lineedit.installEventFilter(self.touchy_filter)
+                lineedit.setFocusPolicy(QtCore.Qt.NoFocus)
+
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
 
