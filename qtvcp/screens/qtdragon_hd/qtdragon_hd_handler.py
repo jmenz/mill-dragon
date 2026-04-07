@@ -492,6 +492,13 @@ class HandlerClass:
 
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
+
+        receiver_parent = receiver
+        while receiver_parent is not None:
+            if isinstance(receiver_parent, QtWidgets.QDialog):
+                return
+            receiver_parent = receiver_parent.parent()
+
         if isinstance(receiver, QtWidgets.QLineEdit):
             if not receiver.isReadOnly():
                 self.w.stackedWidget_dro.setCurrentIndex(1)

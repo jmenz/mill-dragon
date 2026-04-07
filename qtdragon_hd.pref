@@ -1,12 +1,13 @@
 [DIALOG_GEOMETRY]
 AboutDialog-geometry = 910 539 300 150
-LncMessage-geometry = 910 539 340 102
+LncMessage-geometry = 910 539 201 154
 ToolChangeDialog-geometry = 910 539 340 239
 basicProbeHelpDialog-geometry = default
 axisToolButtonDialog_CALCULATOR = 910 539 472 376
 CalculatorDialog-geometry = 910 539 472 376
 FileDialog-geometry = 641 346 604 428
 axisToolButtonDialog_ENTRY = 910 539 300 150
+RunFromLineDialog-geometry = 795 443 340 150
 
 [DIALOG_OPTIONS]
 EntryDialog_play_sound = True
