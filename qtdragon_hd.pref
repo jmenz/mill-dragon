@@ -1,6 +1,6 @@
 [DIALOG_GEOMETRY]
 AboutDialog-geometry = 910 539 300 150
-LncMessage-geometry = 910 539 201 154
+LncMessage-geometry = 910 539 340 102
 ToolChangeDialog-geometry = 910 539 340 239
 basicProbeHelpDialog-geometry = default
 axisToolButtonDialog_CALCULATOR = 910 539 472 376
@@ -111,7 +111,7 @@ Probe Velocity = 10.0
 Max Probe = 10.0
 Retract Distance = 10.0
 Z Safe Travel = 10.0
-Eoffset count = 30
+Eoffset count = 50
 External offsets = True
 Reload program = True
 Reload tool = True
@@ -120,7 +120,7 @@ Use tool sensor = False
 Use tool touchplate = False
 Run from line = True
 Use virtual keyboard = True
-Use camera = True
+Use camera = False
 Use alpha display mode = False
 Inhibit display mouse selection = True
 Camview xscale = 100

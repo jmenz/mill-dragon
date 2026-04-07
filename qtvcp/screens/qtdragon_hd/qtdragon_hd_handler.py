@@ -19,6 +19,8 @@ from qtvcp import logger
 from shutil import copyfile
 from math import sqrt, ceil
 
+from lib.touchy_numpad import TouchyNumpad
+
 LOG = logger.getLogger(__name__)
 KEYBIND = Keylookup()
 AUX_PRGM = Aux_program_loader()
@@ -235,13 +237,16 @@ class HandlerClass:
         STATUS.emit('update-machine-log', message, None)
 
     def show_spindle_dialog(self, event):
-        # Викликаємо вбудований калькулятор (CALCULATOR) або просте поле вводу (ENTRY)
-        mess = {
-            'NAME': 'CALCULATOR', 
-            'TITLE': 'Set Spindle RPM', 
-            'ID': '_spindle_rpm_'
-        }
-        ACTION.CALL_DIALOG(mess)
+        dialog = TouchyNumpad("Set Spindle RPM", self.w)
+        
+        if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value:
+            self.spindle_rpm_val = float(dialog.value)
+            
+            STATUS.stat.poll() 
+            if STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_FORWARD:
+                self.spindle_fwd()
+            elif STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_REVERSE:
+                self.spindle_rev()
 
     #############################
     # SPECIAL FUNCTIONS SECTION #
