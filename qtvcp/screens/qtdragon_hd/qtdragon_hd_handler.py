@@ -7,7 +7,7 @@ from qtvcp.widgets.tool_offsetview import ToolOffsetView as TOOL_TABLE
 from qtvcp.widgets.origin_offsetview import OriginOffsetView as OFFSET_VIEW
 from qtvcp.widgets.stylesheeteditor import StyleSheetEditor as SSE
 from qtvcp.widgets.file_manager import FileManager as FM
-from qtvcp.lib.qt_ngcgui.ngcgui import NgcGui
+from lib.qt_ngcgui.ngcgui import NgcGui
 from qtvcp.lib.auto_height.auto_height import Auto_Measure
 from qtvcp.lib.writer import writer
 from qtvcp.lib.keybindings import Keylookup
