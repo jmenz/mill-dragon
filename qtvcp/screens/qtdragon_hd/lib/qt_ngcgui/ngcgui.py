@@ -51,9 +51,13 @@ class TouchyLineEdit(QtWidgets.QLineEdit):
             
         dialog = TouchyNumpad("NGCGUI Input", self.window())
         
-        val = self.text()
-        if val and val != "None":
+        try:
+            val = self.text()
+            float(val)
             dialog.display.setText(val)
+        except (ValueError, TypeError):
+            # Якщо там "None", текст або просто порожньо — залишаємо діалог чистим
+            pass
             
         if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
             self.setText(str(dialog.value))
