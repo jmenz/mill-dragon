@@ -6,12 +6,15 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 # loadrt hostmot2
 # loadrt hm2_eth board_ip=192.168.1.121
 
+loadrt rp1
+
 # setp hm2_7i95.0.watchdog.timeout_ns 2500000
 
 
 # addf hm2_7i95.0.read        servo-thread
 addf motion-command-handler servo-thread
 addf motion-controller      servo-thread
+addf rp1.update servo-thread
 #addf hm2_7i95.0.write       servo-thread
 
 
