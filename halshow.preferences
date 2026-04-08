@@ -14,6 +14,11 @@ set ::watchlist {
     pin+axis.z.eoffset-enable
     pin+axis.z.eoffset-clear
     pin+spindle.0.speed-out
+    pin+RP1.in-13
+    pin+RP1.in-19
+    pin+RP1.in-26
+    pin+RP1.out-20
+    pin+RP1.out-21
 }
 set ::workmode watchhal
 set ::watchInterval 100
