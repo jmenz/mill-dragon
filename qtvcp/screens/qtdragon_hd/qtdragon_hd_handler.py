@@ -97,7 +97,7 @@ class HandlerClass:
         self.home_all = False
         self.min_spindle_rpm = INFO.MIN_SPINDLE_SPEED
         self.max_spindle_rpm = INFO.MAX_SPINDLE_SPEED
-        self.max_spindle_power = INFO.get_error_safe_setting('DISPLAY', 'MAX_SPINDLE_POWER',"1500")
+        self.spindle_rpm_val = float(INFO.get_error_safe_setting('DISPLAY', 'DEFAULT_SPINDLE_0_SPEED', "1000"))
         self.max_linear_velocity = INFO.MAX_TRAJ_VELOCITY
         self.system_list = ["G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"]
         self.slow_jog_factor = 10
@@ -167,7 +167,12 @@ class HandlerClass:
         self.w.gauge_spindle.mousePressEvent = self.show_spindle_dialog
         self.w.action_spindle_rev.clicked.connect(self.spindle_rev)
         self.w.action_spindle_fwd.clicked.connect(self.spindle_fwd)
-        self.spindle_rpm_val = float(INFO.get_error_safe_setting('DISPLAY', 'DEFAULT_SPINDLE_0_SPEED', "1000"))
+
+        self.w.spindle_setpoint_rpm.setMinimum(0)
+        self.w.spindle_setpoint_rpm.setMaximum(int(self.max_spindle_rpm))
+        self.w.spindle_setpoint_rpm.setValue(int(self.spindle_rpm_val))
+        self.w.spindle_setpoint_rpm.setToolTip("Target Spindle RPM")
+        self.w.spindle_setpoint_rpm.mousePressEvent = self.show_spindle_dialog
 
     # hide or initiate 4th/5th AXIS dro/jog
         flag = False
@@ -240,7 +245,10 @@ class HandlerClass:
         dialog = TouchyNumpad("Set Spindle RPM", self.w)
         
         if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value:
-            self.spindle_rpm_val = float(dialog.value)
+
+            self.spindle_rpm_val = max(self.min_spindle_rpm, min(float(dialog.value), self.max_spindle_rpm))
+
+            self.w.spindle_setpoint_rpm.setValue(int(self.spindle_rpm_val))
             
             STATUS.stat.poll() 
             if STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_FORWARD:
@@ -253,11 +261,6 @@ class HandlerClass:
     #############################
     def init_pins(self):
         # spindle control pins
-        pin = QHAL.newpin("spindle-amps", QHAL.HAL_FLOAT, QHAL.HAL_IN)
-        pin.value_changed.connect(self.spindle_pwr_changed)
-
-        pin = QHAL.newpin("spindle-volts", QHAL.HAL_FLOAT, QHAL.HAL_IN)
-        pin.value_changed.connect(self.spindle_pwr_changed)
 
         pin = QHAL.newpin("spindle-fault-u32", QHAL.HAL_U32, QHAL.HAL_IN)
         pin.value_changed.connect(self.spindle_fault_changed)
@@ -586,20 +589,7 @@ class HandlerClass:
 
     def update_spindle_requested(self,w,data):
         self.w.gauge_spindle.set_setpoint(abs(data))
-
-    def spindle_pwr_changed(self, data):
-        # this calculation assumes the voltage is line to neutral
-        # that the current reported by the VFD is total current for all 3 phases
-        # and that the synchronous motor spindle has a power factor of 0.9
-        try:
-            power = float(self.h['spindle-volts'] * self.h['spindle-amps'] * 0.9) # Watts = V x I x PF
-            pc_power = (power / float(self.max_spindle_power)) * 100
-            if pc_power > 100:
-                pc_power = 100
-            self.w.spindle_power.setValue(int(pc_power))
-        except Exception as e:
-            #print(e)
-            self.w.spindle_power.setValue(0)
+        self.add_status('update_spindle_requested', WARNING)
 
     def spindle_fault_changed(self, data):
         fault = hex(data)
@@ -625,7 +615,6 @@ class HandlerClass:
         wait_code = bool(message.get('ID') == '_wait_resume_')
         unhome_code = bool(message.get('ID') == '_unhome_')
         overwrite = bool(message.get('ID') == '_overwrite_')
-        spindle_code = bool(message.get('ID') == '_spindle_rpm_')
         if plate_code and name == 'MESSAGE' and rtn is True:
             self.touchoff('touchplate')
         elif sensor_code and name == 'MESSAGE' and rtn is True:
@@ -642,14 +631,6 @@ class HandlerClass:
                 self.do_file_copy()
             else:
                 self.add_status("File not copied", CRITICAL)
-        elif spindle_code and rtn is not None:
-            self.spindle_rpm_val = float(rtn)
-            
-            STATUS.stat.poll() 
-            if STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_FORWARD:
-                self.spindle_fwd()
-            elif STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_REVERSE:
-                self.spindle_rev()
 
     def spindle_fwd(self):
         ACTION.SET_SPINDLE_ROTATION(linuxcnc.SPINDLE_FORWARD, self.spindle_rpm_val, 0)

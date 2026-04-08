@@ -16476,7 +16476,7 @@ ANGULAR</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QProgressBar" name="spindle_power">
+                   <widget class="QProgressBar" name="spindle_setpoint_rpm">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -16505,7 +16505,7 @@ ANGULAR</string>
                      <bool>true</bool>
                     </property>
                     <property name="format">
-                     <string>POWER %p%</string>
+                     <string>TARGET RPM %v</string>
                     </property>
                    </widget>
                   </item>
