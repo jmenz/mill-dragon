@@ -1,1 +1,33 @@
-/home/cnc/linuxcnc/configs/qtdragon/qtdragon.qrc
+
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  Text:      0.000, Row: 5, Column: 0 (origin_offsetview.py:170)
+[QTvcp.QTVCP.WIDGETS.DIALOGMIXIN][DEBUG]  Saving CalculatorDialog-geometry data from widget  to file. (dialogMixin.py:140)
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  message returned:{'NAME': 'CALCULATOR', 'ID': 'offset_table__', 'PRELOAD': 0.0, 'TITLE': 'G55 Offset of X,     0.000', 'ITEM': <PyQt5.QtCore.QModelIndex object at 0x7f9145cde0>, 'RETURN': None} (origin_offsetview.py:206)
+[QTvcp.QTVCP.WIDGETS.TOOL_OFFSETVIEW][DEBUG]  message returned:{'NAME': 'CALCULATOR', 'ID': 'offset_table__', 'PRELOAD': 0.0, 'TITLE': 'G55 Offset of X,     0.000', 'ITEM': <PyQt5.QtCore.QModelIndex object at 0x7f9145cde0>, 'RETURN': None} (tool_offsetview.py:196)
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  message returned:{'NAME': 'CALCULATOR', 'ID': 'offset_table__', 'PRELOAD': 0.0, 'TITLE': 'G55 Offset of X,     0.000', 'ITEM': <PyQt5.QtCore.QModelIndex object at 0x7f9145cde0>, 'RETURN': None} (origin_offsetview.py:206)
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  message sent:{'NAME': 'CALCULATOR', 'ID': 'offset_table__', 'PRELOAD': 0.0, 'TITLE': 'G55 Offset of X,     0.000', 'ITEM': <PyQt5.QtCore.QModelIndex object at 0x7f9145cde0>, 'RETURN': None} (origin_offsetview.py:202)
+[QTvcp][CRITICAL]  Aborted from Error Dialog
+ Qtvcp encountered an error.  The following information may be useful in troubleshooting:
+LinuxCNC Version  : 2.9.8
+
+Traceback (most recent call last):
+  File "/home/cnc/linuxcnc/configs/mill-dragon/qtvcp/screens/qtdragon_hd/lib/touchy_numpad.py", line 115, in eventFilter
+    title = table.model().headerData(index.column(), QtCore.Qt.Horizontal)
+TypeError: MyTableModel.headerData() missing 1 required positional argument: 'role'
+
+ (qtvcp:511)
+[QTvcp][DEBUG]  Status shutdown (qtvcp:452)
+[QTvcp.QTVCP.QT_MAKEGUI][DEBUG]  Qsettings sync called: (qt_makegui.py:133)
+[QTvcp.QTVCP.QT_MAKEGUI][DEBUG]  Calling handler file Closing_cleanup__ function of <qtvcp.qt_makegui.VCPWindow object at 0x7f98f23800>. (qt_makegui.py:127)
+[QTvcp.QTVCP.QT_MAKEPINS][DEBUG]  Saving Main Window geometry to preference file. (qt_makepins.py:176)
+[QTvcp.QTVCP.QT_MAKEPINS][DEBUG]  Calling widget's _hal_cleanup functions. (qt_makepins.py:157)
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  Saving __dialogOffsetViewWidget data to file. (origin_offsetview.py:101)
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  Saving __dialogOffsetViewWidget data to file. (origin_offsetview.py:101)
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  Saving __dialogOffsetViewWidget data to file. (origin_offsetview.py:101)
+[QTvcp.QTVCP.WIDGETS.ORIGIN_OFFSETVIEW][DEBUG]  Saving offset_table data to file. (origin_offsetview.py:101)
+[QTvcp.QTVCP.WIDGETS.GCODE_GRAPHICS][DEBUG]  Saving gcodegraphics data to file. (gcode_graphics.py:121)
+[QTvcp.QTVCP.WIDGETS.BASIC_PROBE][DEBUG]  Saving Basic Probe data to preference file. (basic_probe.py:148)
+[QTvcp][DEBUG]  Exiting HAL (qtvcp:474)
+/usr/bin/linuxcnc: line 977:  3283 Segmentation fault      $EMCDISPLAY -ini "$INIFILE" $EMCDISPLAYARGS $EXTRA_ARGS
+Shutting down and cleaning up LinuxCNC...
+task: 10916 cycles, min=0.000004, max=0.105847, avg=0.010056, 1 latency excursions (> 10x expected cycle time of 0.010000s)
+Note: Using POSIX realtime

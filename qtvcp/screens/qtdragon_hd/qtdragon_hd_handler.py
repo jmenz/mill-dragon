@@ -20,6 +20,7 @@ from shutil import copyfile
 from math import sqrt, ceil
 
 from lib.touchy_numpad import TouchyNumpad
+from lib.touchy_numpad import TouchyEventFilter
 
 LOG = logger.getLogger(__name__)
 KEYBIND = Keylookup()
@@ -154,6 +155,7 @@ class HandlerClass:
         self.init_preferences()
         self.init_widgets()
         self.init_probe()
+        self.init_numpad()
         self.init_utils()
         self.w.stackedWidget_log.setCurrentIndex(0)
         self.w.stackedWidget_dro.setCurrentIndex(0)
@@ -240,6 +242,9 @@ class HandlerClass:
         message = "--- QtDragon_hd Version {} on Linuxcnc {} ---".format(
             VERSION, STATUS.get_linuxcnc_version())
         STATUS.emit('update-machine-log', message, None)
+
+    def init_numpad(self):
+        self.touchy_filter = TouchyEventFilter(self.w)
 
     def show_spindle_dialog(self, event):
         dialog = TouchyNumpad("Set Spindle RPM", self.w)
@@ -498,8 +503,6 @@ class HandlerClass:
         self.w.layout_workpiece.addWidget(self.auto_measure)
         self.auto_measure._hal_init()
 
-        from lib.touchy_numpad import TouchyEventFilter
-        self.touchy_filter = TouchyEventFilter(self.w)
         utils = [u for u in [self.facing, self.hole_circle, getattr(self, 'hole_enlarge', None), self.auto_measure] if u is not None]
         
         for utility in utils:

@@ -5,21 +5,29 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 
 # loadrt hostmot2
 # loadrt hm2_eth board_ip=192.168.1.121
+# setp hm2_7i95.0.watchdog.timeout_ns 2500000
 
 loadrt RP1 gpio_in=26,19,13 gpio_out=21,20 gpio_pull_up=26,19 gpio_pull_down=13
 
-# setp hm2_7i95.0.watchdog.timeout_ns 2500000
 
 
-# addf hm2_7i95.0.read        servo-thread
-addf RP1.read-gpio             servo-thread
-addf motion-command-handler    servo-thread
-addf motion-controller         servo-thread
-addf RP1.write-gpio            servo-thread
-#addf hm2_7i95.0.write       servo-thread
+loadrt encoder names=screen_mpg
 
 
+# addf hm2_7i95.0.read            servo-thread
+addf RP1.read-gpio            base-thread
+addf encoder.update-counters  base-thread
 
+addf motion-command-handler   servo-thread
+addf motion-controller        servo-thread
+addf RP1.write-gpio           servo-thread
+addf encoder.capture-position servo-thread
+#addf hm2_7i95.0.write          servo-thread
+
+
+### SCREEN MPG ###
+net screen-mpg-A screen_mpg.phase-A => RP1.in-26
+net screen-mpg-B screen_mpg.phase-B => RP1.in-19
 
 #net x-pos-cmd joint.0.motor-pos-cmd  => stm32_motion.0.pos-cmd
 #net x-vel-cmd joint.0.vel-cmd => stm32_motion.0.vel-cmd
