@@ -248,7 +248,13 @@ class HandlerClass:
         self.status_emit_original = STATUS.emit
         STATUS.emit = self.status_emit_interceptor
 
-        self.w.stackedWidget_log.setCurrentIndex(0) #todo 
+        for field in self.w.findChildren(QtWidgets.QLineEdit):
+            if field.property('use_numpad') == True:
+                field.setProperty('no_keyboard', True)
+                field.setFocusPolicy(QtCore.Qt.NoFocus)
+                field.installEventFilter(self.touchy_filter)
+
+        self.w.stackedWidget_log.setCurrentIndex(0)
 
     def status_emit_interceptor(self, signal_name, *args, **kwargs):
         if signal_name != 'dialog-request':
@@ -550,8 +556,6 @@ class HandlerClass:
         if isinstance(receiver, QtWidgets.QLineEdit):
             if not receiver.isReadOnly():
                 self.w.stackedWidget_dro.setCurrentIndex(1)
-        # elif isinstance(receiver, QtWidgets.QTableView):
-        #     self.w.stackedWidget_dro.setCurrentIndex(1)
         elif isinstance(receiver, QtWidgets.QCommonStyle):
             return
     

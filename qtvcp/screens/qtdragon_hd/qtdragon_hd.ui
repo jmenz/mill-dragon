@@ -10125,6 +10125,9 @@ HEIGHT</string>
                  </item>
                  <item>
                   <widget class="QLineEdit" name="lineEdit_work_height">
+                   <property name="use_numpad" stdset="0">
+                      <bool>true</bool>
+                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>

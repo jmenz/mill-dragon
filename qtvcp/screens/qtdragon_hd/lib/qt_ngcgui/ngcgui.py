@@ -153,7 +153,7 @@ class OnePg(QWidget):
         # QRegExp('^[+-]?((\d+(\.\d{,4})?)|(\.\d{,4}))$' allows max 4 digits after the decimal
         valid = QtGui.QRegExpValidator(QRegExp(r'^[+-]?((\d+(\.\d{,4})?)|(\.\d{,4}))$'))
         lineedit = TouchyLineEdit(str(data))
-        lineedit.setProperty('touchy_title', title)
+        lineedit.setProperty('numpad_title', title)
         lineedit.parm_no = key
         lineedit.setMaxLength(10)
         lineedit.setFixedWidth(70)

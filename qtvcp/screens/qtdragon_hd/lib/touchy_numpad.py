@@ -86,7 +86,7 @@ class TouchyLineEdit(QtWidgets.QLineEdit):
             super().mousePressEvent(event)
             return
             
-        title = self.property('touchy_title') or self.accessibleName() or "Input Value"
+        title = self.property('numpad_title') or self.accessibleName() or "Input Value"
         dialog = TouchyNumpad(title, self.window())
         
         try:
@@ -102,22 +102,24 @@ class TouchyLineEdit(QtWidgets.QLineEdit):
             self.returnPressed.emit()
 
 class TouchyEventFilter(QtCore.QObject):
-    def eventFilter(self, receiver, event):
-        if event.type() == QtCore.QEvent.MouseButtonPress:
-            if isinstance(receiver, QtWidgets.QLineEdit) and not receiver.isReadOnly():
-
-                title = receiver.property('touchy_title') or receiver.accessibleName() or "Input Value"
+    def eventFilter(self, obj, event):
+        if event.type() == QtCore.QEvent.MouseButtonRelease:
+            
+            if isinstance(obj, QtWidgets.QLineEdit) and not obj.isReadOnly():
                 
-                dialog = TouchyNumpad(title, receiver.window())
-                val = receiver.text()
-                try:
-                    float(val)
-                    dialog.display.setText(val)
-                except:
-                    pass
+                title = obj.property('numpad_title')
+        
+                if not title:
+                    raw_name = obj.objectName().replace('lineEdit_', '')
+                    title = raw_name.replace('_', ' ').title()
+                
+                dialog = TouchyNumpad(title, obj.window())
+                dialog.display.setText(obj.text())
+                
                 if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
-                    receiver.setText(str(dialog.value))
-                    receiver.editingFinished.emit()
-                    receiver.returnPressed.emit()
-                return True 
-        return super().eventFilter(receiver, event)
+                    obj.setText(str(dialog.value))
+                    obj.editingFinished.emit()
+                    
+                return True
+                
+        return super().eventFilter(obj, event)
