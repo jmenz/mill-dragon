@@ -27,7 +27,7 @@ RunFromLineDialog_sound_type = READY
 [BOOK_KEEPING]
 last_loaded_directory = /home/cnc/linuxcnc/configs/mill-dragon
 last_loaded_file = /home/cnc/linuxcnc/configs/mill-dragon/0_tmp
-style_QSS_Path = /usr/share/qtvcp/screens/qtdragon_hd/dark_grey.qss
+style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/themes/dark_green.qss
 RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
 RecentSavedPath_0 = /home/cnc/linuxcnc/nc_files/t.ngc
@@ -42,7 +42,7 @@ __dialogOffsetViewWidget-G59 = User System 6
 __dialogOffsetViewWidget-G59.1 = User System 7
 __dialogOffsetViewWidget-G59.2 = User System 8
 __dialogOffsetViewWidget-G59.3 = User System 9
-offset_table-G54 = User System 1
+offset_table-G54 = my main
 offset_table-G55 = User System 2
 offset_table-G56 = User System 3
 offset_table-G57 = User System 4

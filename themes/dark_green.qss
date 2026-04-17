@@ -270,9 +270,16 @@ QHeaderView {
 }
 
 QHeaderView::section {
-    color: #e0e0e0;
+    background-color: #404040;
+    color: #9ad58d;
     padding: 5px;
     text-align: center;
+    border: 1px solid #202020;
+}
+
+QTableView QTableCornerButton::section {
+    background-color: #404040;
+    border: 1px solid #202020;
 }
 
 QHeaderView::section::vertical::first,
@@ -295,7 +302,7 @@ QHeaderView::section::horizontal {
 
 QHeaderView::section:checked {
     color: #9ad58d;
- }
+}
 
 /** ScrollBars **/
 QScrollBar:horizontal {
@@ -419,12 +426,6 @@ QWidget:disabled {
 QTextEdit {
     background: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(40, 40, 40, 255), stop:1 rgba(83, 83, 83, 255));
     color: #e0e0e0;
-}
-
-QHeaderView::section {
-    background-color: #404040;
-    color: #9ad58d;
-    padding: 5px;
 }
 
 QStackedWidget {
