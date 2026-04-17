@@ -2,7 +2,7 @@
 AboutDialog-geometry = 910 539 300 150
 LncMessage-geometry = 910 539 340 102
 ToolChangeDialog-geometry = 910 539 340 239
-basicProbeHelpDialog-geometry = default
+basicProbeHelpDialog-geometry = 660 254 600 600
 axisToolButtonDialog_CALCULATOR = 910 539 472 376
 CalculatorDialog-geometry = 910 539 472 376
 FileDialog-geometry = 641 346 604 428
@@ -25,8 +25,8 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /home/cnc/linuxcnc/configs/mill-dragon
-last_loaded_file = /home/cnc/linuxcnc/configs/mill-dragon/0_tmp
+last_loaded_directory = /tmp/emcBCD-scw7u19v.d
+last_loaded_file = /tmp/emcBCD-scw7u19v.d/face.ngc
 style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/themes/dark_green.qss
 RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
@@ -42,7 +42,7 @@ __dialogOffsetViewWidget-G59 = User System 6
 __dialogOffsetViewWidget-G59.1 = User System 7
 __dialogOffsetViewWidget-G59.2 = User System 8
 __dialogOffsetViewWidget-G59.3 = User System 9
-offset_table-G54 = my main
+offset_table-G54 = user system 1
 offset_table-G55 = User System 2
 offset_table-G56 = User System 3
 offset_table-G57 = User System 4
@@ -96,14 +96,14 @@ gcodegraphics-user-lat = 0.0
 gcodegraphics-user-lon = 0.0
 
 [CUSTOM_FORM_ENTRIES]
-Tool to load = 0
+Tool to load = 1
 Laser X = 100.0
 Laser Y = -20.0
 Sensor X = 10.0
 Sensor Y = 10.0
 Camera X = 10.0
 Camera Y = 10.0
-Work Height = 20.0
+Work Height = 60.0
 Touch Height = 40.0
 Sensor Height = 40.0
 Search Velocity = 40.0
@@ -128,7 +128,7 @@ Camview yscale = 100
 Camview cam number = 0
 
 [PROBE OPTIONS]
-Probe tool = 0
+Probe tool = 10
 Probe diameter = 4
 Probe rapid = 10
 Probe feed = 20

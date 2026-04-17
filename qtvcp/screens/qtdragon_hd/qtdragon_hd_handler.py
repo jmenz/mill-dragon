@@ -3,8 +3,8 @@ import linuxcnc
 from PyQt5 import QtCore, QtWidgets, QtGui
 from qtvcp.widgets.gcode_editor import GcodeEditor as GCODE
 from qtvcp.widgets.mdi_line import MDILine as MDI_WIDGET
-from lib.tool_offsetview import ToolOffsetView as TOOL_TABLE
-from lib.origin_offsetview import OriginOffsetView as OFFSET_VIEW
+from qtvcp.widgets.tool_offsetview import ToolOffsetView as TOOL_TABLE
+from qtvcp.widgets.origin_offsetview import OriginOffsetView as OFFSET_VIEW
 from qtvcp.widgets.stylesheeteditor import StyleSheetEditor as SSE
 from qtvcp.widgets.file_manager import FileManager as FM
 from lib.qt_ngcgui.ngcgui import NgcGui
@@ -151,11 +151,11 @@ class HandlerClass:
 
     def initialized__(self):
         self.w.btn_setup.hide()# maybe temp
+        self.init_numpad()
         self.init_pins()
         self.init_preferences()
         self.init_widgets()
         self.init_probe()
-        self.init_numpad()
         self.init_utils()
         self.w.stackedWidget_log.setCurrentIndex(0)
         self.w.stackedWidget_dro.setCurrentIndex(0)
@@ -245,6 +245,31 @@ class HandlerClass:
 
     def init_numpad(self):
         self.touchy_filter = TouchyEventFilter(self.w)
+        self.status_emit_original = STATUS.emit
+        STATUS.emit = self.status_emit_interceptor
+
+        self.w.stackedWidget_log.setCurrentIndex(0) #todo 
+
+    def status_emit_interceptor(self, signal_name, *args, **kwargs):
+        if signal_name != 'dialog-request':
+            self.status_emit_original(signal_name, *args, **kwargs)
+            return
+
+        mess = args[0]
+        if isinstance(mess, dict) and mess.get('NAME') == 'CALCULATOR':
+            
+            title = str(mess.get('TITLE', 'Input Value'))
+            dialog = TouchyNumpad(title, self.w)
+            
+            if 'PRELOAD' in mess and mess['PRELOAD'] is not None:
+                dialog.display.setText(str(mess['PRELOAD']))
+                
+            if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
+                try:
+                    mess['RETURN'] = float(dialog.value)
+                    self.status_emit_original('general', mess)
+                except ValueError:
+                    pass
 
     def show_spindle_dialog(self, event):
         dialog = TouchyNumpad("Set Spindle RPM", self.w)
@@ -384,7 +409,10 @@ class HandlerClass:
         self.w.filemanager.table.setShowGrid(False)
         self.w.filemanager_usb.table.setShowGrid(False)
         self.w.tooloffsetview.setShowGrid(False)
+        self.w.tooloffsetview.tablemodel._highlightcolor = '#054747'
+        self.w.tooloffsetview.tablemodel._selectedcolor = '#065906'
         self.w.offset_table.setShowGrid(False)
+        self.w.offset_table.tablemodel._highlightcolor = '#054747'
         self.w.divider_line.hide()
 
         #set up gcode list
