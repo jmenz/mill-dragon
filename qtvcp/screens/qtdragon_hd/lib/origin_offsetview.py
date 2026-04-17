@@ -59,8 +59,6 @@ class OriginOffsetView(QTableView, _HalWidgetBase):
         self.metric_text_template = '%10.3f'
         self.imperial_text_template = '%9.4f'
         self.setEnabled(False)
-        self.dialog_code = 'CALCULATOR'
-        self.text_dialog_code = 'KEYBOARD'
         self.table = self.createTable()
 
     def _hal_init(self):
@@ -75,7 +73,6 @@ class OriginOffsetView(QTableView, _HalWidgetBase):
         STATUS.connect('metric-mode-changed', lambda w, data: self.metricMode(data))
         STATUS.connect('tool-in-spindle-changed', lambda w, data: self.currentTool(data))
         STATUS.connect('user-system-changed', self._convert_system)
-        STATUS.connect('general',self.return_value)
 
         conversion = {0:"X", 1:"Y", 2:"Z", 3:"A", 4:"B", 5:"C", 6:"U", 7:"V", 8:"W"}
         for num, let in conversion.items():
@@ -180,16 +177,6 @@ class OriginOffsetView(QTableView, _HalWidgetBase):
         elif item.row() > 1:
             self.callDialog(text,item)
 
-    # alphanumerical
-    def callTextDialog(self, text,item):
-        text = self.tablemodel.arraydata[item.row()][9]
-        system = self.tablemodel.Vheaderdata[item.row()]
-        mess = {'NAME':self.text_dialog_code,'ID':'%s__' % self.objectName(),
-                'PRELOAD':text, 'TITLE':'{} System Description Entry'.format(system),
-                'ITEM':item}
-        LOG.debug('message sent:{}'.format (mess))
-        STATUS.emit('dialog-request', mess)
-
     def callDialog(self, text, item):
         axis = self.tablemodel.headerdata[item.column()]
         system = self.tablemodel.Vheaderdata[item.row()]
@@ -202,18 +189,6 @@ class OriginOffsetView(QTableView, _HalWidgetBase):
             
         if dialog.exec_() == QDialog.Accepted and dialog.value is not None:
             self.tablemodel.setData(item, dialog.value, Qt.EditRole)
-            self.tablemodel.layoutChanged.emit()
-
-    # process the STATUS return message
-    def return_value(self, w, message):
-        LOG.debug('message returned:{}'.format (message))
-        num = message['RETURN']
-        code = bool(message.get('ID') == '%s__'% self.objectName())
-        name = bool(message.get('NAME') == self.dialog_code)
-        name2 = bool(message.get('NAME') == self.text_dialog_code)
-        item = message.get('ITEM')
-        if code and (name or name2) and num is not None:
-            self.tablemodel.setData(item, num, None)
             self.tablemodel.layoutChanged.emit()
 
     # This function uses the color name (string); setProperty
@@ -392,22 +367,6 @@ class OriginOffsetView(QTableView, _HalWidgetBase):
     # it will use the get set and reset calls to do those actions
     #
     ########################################################################
-
-    def set_dialog_code(self, data):
-        self.dialog_code = data
-    def get_dialog_code(self):
-        return self.dialog_code
-    def reset_dialog_code(self):
-        self.dialog_code = 'CALCULATOR'
-    dialog_code_string = pyqtProperty(str, get_dialog_code, set_dialog_code, reset_dialog_code)
-
-    def set_keyboard_code(self, data):
-        self.text_dialog_code = data
-    def get_keyboard_code(self):
-        return self.text_dialog_code
-    def reset_keyboard_code(self):
-        self.text_dialog_code = 'KEYBOARD'
-    text_dialog_code_string = pyqtProperty(str, get_keyboard_code, set_keyboard_code, reset_keyboard_code)
 
     def setmetrictemplate(self, data):
         self.metric_text_template = data

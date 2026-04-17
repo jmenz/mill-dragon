@@ -13372,9 +13372,6 @@ ZERO</string>
                      <property name="halpin_option" stdset="0">
                       <bool>false</bool>
                      </property>
-                     <property name="dialog_code_string" stdset="0">
-                      <string>CALCULATOR</string>
-                     </property>
                     </widget>
                    </item>
                    <item row="2" column="0">
