@@ -21,10 +21,11 @@ import operator
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, pyqtProperty, QSize, pyqtSlot
 from PyQt5.QtGui import QColor, QIcon
 from PyQt5.QtWidgets import (QTableView, QAbstractItemView, QCheckBox,
-QItemEditorFactory,QDoubleSpinBox,QSpinBox,QStyledItemDelegate)
+QItemEditorFactory,QDoubleSpinBox,QSpinBox,QStyledItemDelegate,QDialog)
 from qtvcp.widgets.widget_baseclass import _HalWidgetBase
 from qtvcp.core import Status, Action, Info, Tool
 from qtvcp import logger
+from lib.touchy_numpad import TouchyNumpad
 
 #BASE = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), ".."))
 #LOCALEDIR = os.path.join(BASE, "share", "locale")
@@ -159,16 +160,15 @@ class ToolOffsetView(QTableView, _HalWidgetBase):
     def showSelection(self, item):
         cellContent = item.data()
         text = cellContent
-        LOG.debug('Text: {}, Row: {}, Column: {}'.format(text, item.row(), item.column()))
-        sf = "You clicked on {}".format(text)
-        # display in title bar for convenience
-        self.setWindowTitle(sf)
-        # row 0 is not editable (checkbox position)
-        # column 19 is the descritive text column
+        
         if item.column() == 19:
-            self.callTextDialog(text,item)
-        elif item.column() <19 and item.column() > 0:
-            self.callDialog(text,item)
+            self.edit(item)
+            try:
+                self.window().w.stackedWidget_dro.setCurrentIndex(1)
+            except:
+                pass
+        elif item.column() < 19 and item.column() > 0:
+            self.callDialog(text, item)
 
     # alphanumerical
     def callTextDialog(self, text,item):
@@ -181,14 +181,18 @@ class ToolOffsetView(QTableView, _HalWidgetBase):
         STATUS.emit('dialog-request', mess)
 
     # numerical only
-    def callDialog(self, text,item):
+    def callDialog(self, text, item):
         axis = self.tablemodel.headerdata[item.column()]
         tool = self.tablemodel.arraydata[item.row()][1]
-        mess = {'NAME':self.dialog_code,'ID':'%s__' % self.objectName(),
-                'PRELOAD':float(text), 'TITLE':'Tool {} Offset of {},{}'.format(tool, axis,text),
-                'ITEM':item}
-        LOG.debug('message sent:{}'.format (mess))
-        STATUS.emit('dialog-request', mess)
+        
+        title = 'Tool {} Offset of {}'.format(tool, axis)
+        dialog = TouchyNumpad(title, self.window())
+        
+        if text is not None and str(text) != 'None':
+            dialog.display.setText(str(text))
+            
+        if dialog.exec_() == QDialog.Accepted and dialog.value is not None:
+            self.tablemodel.setData(item, dialog.value, Qt.EditRole)
 
 
     # process the STATUS return message
@@ -507,8 +511,10 @@ class MyTableModel(QAbstractTableModel):
             return None
         if index.column() == 0:
             return Qt.ItemIsEnabled | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable
-        else:
+        elif index.column() == 19:
             return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable
+        else:
+            return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
     # Sets the role data for the item at index to value.
     # Returns true if successful; otherwise returns false.

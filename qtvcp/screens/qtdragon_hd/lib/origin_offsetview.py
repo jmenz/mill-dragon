@@ -20,7 +20,8 @@ import locale
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, pyqtProperty
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QTableView, QAbstractItemView
+from PyQt5.QtWidgets import QTableView, QAbstractItemView, QDialog
+from lib.touchy_numpad import TouchyNumpad
 
 from qtvcp.widgets.widget_baseclass import _HalWidgetBase
 from qtvcp.core import Status, Action, Info
@@ -165,17 +166,14 @@ class OriginOffsetView(QTableView, _HalWidgetBase):
 
     def showSelection(self, item):
         cellContent = item.data()
-        #text = cellContent.toPyObject()  # test
         text = cellContent
-        LOG.debug('Text: {}, Row: {}, Column: {}'.format(text, item.row(), item.column()))
-        sf = "You clicked on {}".format(text)
-        # display in title bar for convenience
-        self.setWindowTitle(sf)
-        # row 0 is not editable (absolute position)
-        # row has limited entries (rotational)
-        # column 9 is the descritive text column
+        
         if item.column() == 9:
-            self.callTextDialog(text,item)
+            self.edit(item)
+            try:
+                self.window().w.stackedWidget_dro.setCurrentIndex(1)
+            except:
+                pass
         elif item.row() == 1:
             if item.column() == 2:
                 self.callDialog(text,item)
@@ -192,14 +190,19 @@ class OriginOffsetView(QTableView, _HalWidgetBase):
         LOG.debug('message sent:{}'.format (mess))
         STATUS.emit('dialog-request', mess)
 
-    def callDialog(self, text,item):
+    def callDialog(self, text, item):
         axis = self.tablemodel.headerdata[item.column()]
         system = self.tablemodel.Vheaderdata[item.row()]
-        mess = {'NAME':self.dialog_code,'ID':'%s__' % self.objectName(),
-                'PRELOAD':float(text), 'TITLE':'{} Offset of {},{}'.format(system, axis,text),
-                'ITEM':item}
-        STATUS.emit('dialog-request', mess)
-        LOG.debug('message sent:{}'.format (mess))
+        
+        title = '{} Offset of {}'.format(system, axis)
+        dialog = TouchyNumpad(title, self.window())
+        
+        if text is not None and str(text) != 'None':
+            dialog.display.setText(str(text))
+            
+        if dialog.exec_() == QDialog.Accepted and dialog.value is not None:
+            self.tablemodel.setData(item, dialog.value, Qt.EditRole)
+            self.tablemodel.layoutChanged.emit()
 
     # process the STATUS return message
     def return_value(self, w, message):
@@ -472,15 +475,16 @@ class MyTableModel(QAbstractTableModel):
     def flags(self, index):
         if not index.isValid():
             return None
-        # print(">>> flags() index.column() = ", index.column())
         if index.column() == 9 and index.row() in(0, 1, 2, 3):
             return Qt.ItemIsEnabled
         elif index.row() == 0:
             return Qt.ItemIsEnabled
         elif index.row() == 1 and not index.column() == 2:
             return Qt.NoItemFlags
-        else:
+        elif index.column() == 9:
             return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable
+        else:
+            return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
     def setData(self, index, value, role):
         if not index.isValid():

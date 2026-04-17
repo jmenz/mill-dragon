@@ -522,8 +522,8 @@ class HandlerClass:
         if isinstance(receiver, QtWidgets.QLineEdit):
             if not receiver.isReadOnly():
                 self.w.stackedWidget_dro.setCurrentIndex(1)
-        elif isinstance(receiver, QtWidgets.QTableView):
-            self.w.stackedWidget_dro.setCurrentIndex(1)
+        # elif isinstance(receiver, QtWidgets.QTableView):
+        #     self.w.stackedWidget_dro.setCurrentIndex(1)
         elif isinstance(receiver, QtWidgets.QCommonStyle):
             return
     

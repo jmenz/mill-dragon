@@ -5,11 +5,10 @@ qtdragon.var.bak
 qtdragon_hd.log
 mdi_history.dat
 qtvcp/screens/qtdragon_hd/__pycache__/
+qtvcp/screens/qtdragon_hd/lib/__pycache__/
 qtvcp/screens/qtdragon_hd/lib/qt_ngcgui/__pycache__/
-qtvcp/screens/qtdragon_hd/lib/__pycache__/touchy_numpad.cpython-313.pyc
 0_tmp
 tool.tbl
 probe_points.txt
 halshow.preferences
 autosave.halscope
-qtvcp/screens/qtdragon_hd/lib/__pycache__/

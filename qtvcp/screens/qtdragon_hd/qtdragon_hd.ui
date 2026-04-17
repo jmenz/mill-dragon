@@ -17011,13 +17011,13 @@ ANGULAR</string>
   <customwidget>
    <class>OriginOffsetView</class>
    <extends>QTableView</extends>
-   <header>qtvcp.widgets.origin_offsetview</header>
+   <header>lib.origin_offsetview</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ToolOffsetView</class>
    <extends>QTableView</extends>
-   <header>qtvcp.widgets.tool_offsetview</header>
+   <header>lib.tool_offsetview</header>
    <container>1</container>
   </customwidget>
   <customwidget>
