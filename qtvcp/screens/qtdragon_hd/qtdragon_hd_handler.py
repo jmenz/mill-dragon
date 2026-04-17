@@ -3,8 +3,8 @@ import linuxcnc
 from PyQt5 import QtCore, QtWidgets, QtGui
 from qtvcp.widgets.gcode_editor import GcodeEditor as GCODE
 from qtvcp.widgets.mdi_line import MDILine as MDI_WIDGET
-from qtvcp.widgets.tool_offsetview import ToolOffsetView as TOOL_TABLE
-from qtvcp.widgets.origin_offsetview import OriginOffsetView as OFFSET_VIEW
+from lib.tool_offsetview import ToolOffsetView as TOOL_TABLE
+from lib.origin_offsetview import OriginOffsetView as OFFSET_VIEW
 from qtvcp.widgets.stylesheeteditor import StyleSheetEditor as SSE
 from qtvcp.widgets.file_manager import FileManager as FM
 from lib.qt_ngcgui.ngcgui import NgcGui
