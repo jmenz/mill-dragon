@@ -6,11 +6,10 @@ class TouchyNumpad(QtWidgets.QDialog):
         self.setWindowTitle(title)
         self.setModal(True)
         self.value = None
-        self.back_sym = '\u2190'
+        back_sym = '\u2190'
         
         layout = QtWidgets.QVBoxLayout(self)
         
-
         self.display = QtWidgets.QLineEdit()
         self.display.setReadOnly(True)
         self.display.setAlignment(QtCore.Qt.AlignRight)
@@ -21,60 +20,58 @@ class TouchyNumpad(QtWidgets.QDialog):
         grid = QtWidgets.QGridLayout()
         layout.addLayout(grid)
 
-        buttons = [
-            ('ESC', 0, 0), ('CLR', 0, 1), (self.back_sym, 0, 2),
-            ('7', 1, 0), ('8', 1, 1), ('9', 1, 2),
-            ('4', 2, 0), ('5', 2, 1), ('6', 2, 2),
-            ('1', 3, 0), ('2', 3, 1), ('3', 3, 2),
-            ('0', 4, 0), ('.', 4, 1), ('-', 4, 2),
-            ('OK', 5, 0)
+        # Matrix: (Text, Row, Col, ColSpan, Handler)
+        matrix = [
+            ('ESC', 0, 0, 1, self.reject),      ('CLR', 0, 1, 1, self.display.clear), (back_sym, 0, 2, 1, self._handle_backspace),
+            ('7', 1, 0, 1, self._handle_digit), ('8', 1, 1, 1, self._handle_digit), ('9', 1, 2, 1, self._handle_digit),
+            ('4', 2, 0, 1, self._handle_digit), ('5', 2, 1, 1, self._handle_digit), ('6', 2, 2, 1, self._handle_digit),
+            ('1', 3, 0, 1, self._handle_digit), ('2', 3, 1, 1, self._handle_digit), ('3', 3, 2, 1, self._handle_digit),
+            ('0', 4, 0, 1, self._handle_digit), ('.', 4, 1, 1, self._handle_dot),   ('-', 4, 2, 1, self._handle_sign),
+            ('OK', 5, 0, 3, self._handle_ok)
         ]
-        
-        for text, row, col in buttons:
+
+        for text, row, col, span, handler in matrix:
             btn = QtWidgets.QPushButton(text)
             btn.setMinimumSize(70, 70)
             btn.setStyleSheet("font-size: 16pt; font-weight: bold;")
             
-            if text == 'OK':
-                btn.setObjectName("btn_numpad_ok")
-                grid.addWidget(btn, row, col, 1, 3)
-            else:
-                if text == 'ESC':
-                    btn.setObjectName("btn_numpad_esc")
-                grid.addWidget(btn, row, col)
+            grid.addWidget(btn, row, col, 1, span)
             
-            btn.clicked.connect(lambda _, t=text: self.on_click(t))
-
-    def on_click(self, text):
-        current = self.display.text()
-        
-        if text == 'OK':
-            val = current
-            if not val or val in ('.', '-', '-.'):
-                val = "0"
-            if val.endswith('.'):
-                val = val[:-1]
-            self.value = val
-            self.accept()
-        elif text == 'ESC':
-            self.reject()
-        elif text == 'CLR':
-            self.display.clear()
-        elif text == self.back_sym:
-            self.display.setText(current[:-1])
-        elif text == '-':
-            if current.startswith('-'):
-                self.display.setText(current[1:])
+            if handler == self._handle_digit:
+                btn.clicked.connect(lambda checked, t=text, h=handler: h(t))
             else:
-                self.display.setText('-' + current)
-        elif text == '.':
-            if '.' not in current:
-                if not current or current == '-':
-                    self.display.setText(current + '0.')
-                else:
-                    self.display.setText(current + '.')
+                btn.clicked.connect(lambda checked, h=handler: h())
+
+    def _handle_digit(self, digit):
+        self.display.setText(self.display.text() + digit)
+
+    def _handle_backspace(self):
+        self.display.setText(self.display.text()[:-1])
+
+    def _handle_sign(self):
+        current = self.display.text()
+        if current.startswith('-'):
+            self.display.setText(current[1:])
         else:
-            self.display.setText(current + text)
+            self.display.setText('-' + current)
+
+    def _handle_dot(self):
+        current = self.display.text()
+        if '.' not in current:
+            if not current or current == '-':
+                self.display.setText(current + '0.')
+            else:
+                self.display.setText(current + '.')
+
+    def _handle_ok(self):
+        current = self.display.text()
+        if not current or current in ('.', '-', '-.'):
+            current = "0"
+        if current.endswith('.'):
+            current = current[:-1]
+        
+        self.value = current
+        self.accept()
 
 
 class TouchyLineEdit(QtWidgets.QLineEdit):
