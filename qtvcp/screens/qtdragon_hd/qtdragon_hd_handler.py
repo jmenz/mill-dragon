@@ -1503,111 +1503,69 @@ class HandlerClass:
                 "background-color: rgb(255, 144, 0);color: rgb(0,0,0)")   #orange
         self.endcolor()
 
-    def adjust_stacked_widgets(self,requestedIndex):
+    def adjust_stacked_widgets(self, requestedIndex):
         IGNORE = -1
         SHOW_DRO = 0
         mode = STATUS.get_current_mode()
-        if mode == STATUS.AUTO:
-            seq = {TAB_MAIN: (TAB_MAIN,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_FILE: (TAB_MAIN,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_OFFSETS: (TAB_MAIN,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_TOOL: (TAB_MAIN,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_STATUS: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_PROBE: (TAB_MAIN,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_CAMVIEW: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_GCODES: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_SETUP: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_SETTINGS: (requestedIndex,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_UTILS: (TAB_MAIN,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_USER: (requestedIndex,PAGE_UNCHANGED,IGNORE,NO_MACRO) }
-        else:
-            seq = {TAB_MAIN: (requestedIndex,PAGE_GCODE,SHOW_DRO,MACRO),
-                    TAB_FILE: (requestedIndex,PAGE_GCODE,IGNORE,NO_MACRO),
-                    TAB_OFFSETS: (requestedIndex,PAGE_GCODE,IGNORE,NO_MACRO),
-                    TAB_TOOL: (requestedIndex,PAGE_GCODE,IGNORE,NO_MACRO),
-                    TAB_STATUS: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_PROBE: (requestedIndex,PAGE_GCODE,SHOW_DRO,NO_MACRO),
-                    TAB_CAMVIEW: (requestedIndex,PAGE_UNCHANGED,IGNORE,MACRO),
-                    TAB_GCODES: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_SETUP: (requestedIndex,PAGE_UNCHANGED,IGNORE,NO_MACRO),
-                    TAB_SETTINGS: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_UTILS: (requestedIndex,PAGE_UNCHANGED,SHOW_DRO,NO_MACRO),
-                    TAB_USER: (requestedIndex,PAGE_UNCHANGED,IGNORE,MACRO) }
+        
+        is_auto = (mode == STATUS.AUTO)
+        show_macro = NO_MACRO if is_auto else MACRO
+        
+        seq = {
+            TAB_MAIN:     (requestedIndex, PAGE_GCODE,     0,      show_macro),
+            TAB_FILE:     (requestedIndex, PAGE_GCODE,     IGNORE, NO_MACRO),
+            TAB_OFFSETS:  (requestedIndex, PAGE_GCODE,     IGNORE, NO_MACRO),
+            TAB_TOOL:     (requestedIndex, PAGE_GCODE,     IGNORE, NO_MACRO),
+            TAB_STATUS:   (requestedIndex, PAGE_UNCHANGED, 0,      NO_MACRO),
+            TAB_PROBE:    (requestedIndex, PAGE_GCODE,     0,      NO_MACRO),
+            TAB_CAMVIEW:  (requestedIndex, PAGE_UNCHANGED, IGNORE, show_macro),
+            TAB_GCODES:   (requestedIndex, PAGE_UNCHANGED, 0,      NO_MACRO),
+            TAB_SETUP:    (requestedIndex, PAGE_UNCHANGED, IGNORE, NO_MACRO),
+            TAB_SETTINGS: (requestedIndex, PAGE_GCODE,     0,      NO_MACRO),
+            TAB_UTILS:    (requestedIndex, PAGE_UNCHANGED, 0,      NO_MACRO),
+            TAB_USER:     (requestedIndex, PAGE_UNCHANGED, IGNORE, show_macro)
+        }
 
-        rtn =  seq.get(requestedIndex)
-
-        # if not found (None) use defaults
+        rtn = seq.get(requestedIndex)
         if rtn is None:
-            main_index = requestedIndex
-            stacked_index = 0
-            show_dro = 0
-            show_macro = True
+            main_index, stacked_index, show_dro, show_macro = requestedIndex, 0, 0, True
         else:
-            main_index,stacked_index,show_dro,show_macro = rtn
+            main_index, stacked_index, show_dro, show_macro = rtn
 
-        # prpbe widget in not a separate tab
+        if main_index != TAB_UTILS:
+            self.w.stackedWidget.setCurrentIndex(PAGE_GCODE)
+
         if main_index == TAB_PROBE:
-            requestedIndex = TAB_MAIN
             self.probe.show()
             self.w.divider_line.show()
+            main_index = TAB_MAIN 
         elif self.probe is not None:
             self.probe.hide()
             self.w.divider_line.hide()
 
-        # show DRO rather then keyboard.
         if show_dro > IGNORE:
             self.w.stackedWidget_dro.setCurrentIndex(0)
-
-        # macros can only be run in manual or mdi mode
+        
         if show_macro:
             self.w.frame_macro_buttons.show()
         else:
             self.w.frame_macro_buttons.hide()
 
-        # show ngcgui info tab if utilities tab is selected
-        # but only if the utilities tab has ngcgui selected
         if main_index == TAB_UTILS:
             if self.w.tabWidget_utilities.currentIndex() == 2:
                 self.w.stackedWidget.setCurrentIndex(PAGE_NGCGUI)
             else:
                 self.w.stackedWidget.setCurrentIndex(PAGE_GCODE)
 
-        # toggle home/tool offsets buttons in DRO section
-        if main_index == TAB_TOOL:
-            num = 1
-        else:
-            num = 0
-        for n,i in enumerate(INFO.AVAILABLE_AXES):
-            if n >2:
-                self.w['dro_button_stack_%s'%(n+1)].setCurrentIndex(num)
-            else:
-                self.w['dro_button_stack_%s'%i.lower()].setCurrentIndex(num)
+        num = 1 if main_index == TAB_TOOL else 0
+        for n, i in enumerate(INFO.AVAILABLE_AXES):
+            target = 'dro_button_stack_%s' % (n + 1 if n > 2 else i.lower())
+            self.w[target].setCurrentIndex(num)
 
-        # adjust the stacked widget
         if stacked_index > PAGE_UNCHANGED:
             self.w.stackedWidget.setCurrentIndex(stacked_index)
 
-        if stacked_index == TAB_FILE and self.w.btn_gcode_edit.isChecked():
-            self.w.btn_gcode_edit.setChecked(False)
-            self.w.btn_gcode_edit_clicked(False)
-
-        # user tabs cycle between all user tabs
-        main_current = self.w.stackedWidget_mainTab.currentIndex()
-        if main_index == TAB_USER and main_current >= TAB_USER:
-                next = main_current +1
-                if next == self.w.stackedWidget_mainTab.count():
-                    next = TAB_USER
-                self.w.stackedWidget_mainTab.setCurrentIndex(next)
-        else:
-            # set main tab to adjusted index
-            self.w.stackedWidget_mainTab.setCurrentIndex(main_index)
-
-        # if indexes don't match then request is disallowed
-        # give a warning and reset the button check
-        if main_index != requestedIndex and not main_index in(TAB_CAMVIEW,TAB_GCODES,TAB_SETUP):
-            self.add_status("Cannot switch pages while in AUTO mode", WARNING)
-            self.w.stackedWidget_mainTab.setCurrentIndex(0)
-            self.w.btn_main.setChecked(True)
+        self.w.stackedWidget_mainTab.setCurrentIndex(main_index)
     
     # calc wait time for mdi move based on dist and rapid speed, return seconds to wait
     def calc_mdi_move_wait_time(self, dest_x, dest_y, wait_buffer_secs=1):

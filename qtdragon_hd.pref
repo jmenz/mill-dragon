@@ -8,6 +8,7 @@ CalculatorDialog-geometry = 910 539 472 376
 FileDialog-geometry = 641 346 604 428
 axisToolButtonDialog_ENTRY = 910 539 300 150
 RunFromLineDialog-geometry = 795 443 340 150
+VersaHelpDialog-geometry = 660 254 600 600
 
 [DIALOG_OPTIONS]
 EntryDialog_play_sound = True
@@ -25,8 +26,8 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /tmp/emcBCD-scw7u19v.d
-last_loaded_file = /tmp/emcBCD-scw7u19v.d/face.ngc
+last_loaded_directory = /tmp/emcBCD-mwkp8qef.d
+last_loaded_file = /tmp/emcBCD-mwkp8qef.d/face.ngc
 style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/themes/dark_green.qss
 RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
@@ -103,7 +104,7 @@ Sensor X = 10.0
 Sensor Y = 10.0
 Camera X = 10.0
 Camera Y = 10.0
-Work Height = 89.0
+Work Height = 90.0
 Touch Height = 40.0
 Sensor Height = 40.0
 Search Velocity = 40.0
@@ -128,11 +129,11 @@ Camview yscale = 100
 Camview cam number = 0
 
 [PROBE OPTIONS]
-Probe tool = 10
-Probe diameter = 4
-Probe rapid = 10
+Probe tool = 8
+Probe diameter = 5
+Probe rapid = 120
 Probe feed = 20
-Probe search = 10
+Probe search = 20
 Probe max travel = 10
 Probe max z = 2
 Probe extra depth = 0
@@ -144,4 +145,25 @@ Calibration offset = 0
 Cal x width = 0
 Cal y width = 0
 Cal diameter = 0
+
+[VERSA_PROBE_OPTIONS]
+ps_searchvel = 300.0
+ps_probevel = 10.0
+ps_z_clearance = 3.0
+ps_probe_max = 1.0
+ps_probe_max_z_travel = 1.0
+ps_probe_latch = 0.5
+ps_probe_diam = 2.0
+ps_xy_clearance = 5.0
+ps_side_edge_length = 5.0
+ps_probe_height = 20.0
+ps_block_height = 20.0
+ps_offs_x = 1.0
+ps_offs_y = 0.0
+ps_offs_z = 0.0
+ps_offs_angle = 0.0
+ps_probe_rapid_vel = 80.0
+use_tool_measurement = True
+use_auto_zero = True
+use_auto_skew = True
 
