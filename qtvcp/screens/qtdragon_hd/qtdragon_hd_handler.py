@@ -512,6 +512,10 @@ class HandlerClass:
         self.w.probe_layout.addWidget(self.probe)
         self.probe.hal_init()
 
+        for lineedit in self.probe.findChildren(QtWidgets.QLineEdit):
+            lineedit.setFocusPolicy(QtCore.Qt.NoFocus)
+            lineedit.installEventFilter(self.touchy_filter)
+
     def init_utils(self):
         from qtvcp.lib.gcode_utility.facing import Facing
         self.facing = Facing()

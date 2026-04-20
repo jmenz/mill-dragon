@@ -3910,7 +3910,10 @@ LOG</string>
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLineEdit" name="lineEdit_sensor_x">
+                          <widget class="QLineEdit" name="lineEdit_sensor_x">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -3942,6 +3945,9 @@ LOG</string>
                         </item>
                         <item>
                          <widget class="QLineEdit" name="lineEdit_sensor_y">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -4022,6 +4028,9 @@ LOG</string>
                         </item>
                         <item>
                          <widget class="QLineEdit" name="lineEdit_laser_x">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -4053,6 +4062,9 @@ LOG</string>
                         </item>
                         <item>
                          <widget class="QLineEdit" name="lineEdit_laser_y">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -4133,6 +4145,9 @@ LOG</string>
                         </item>
                         <item>
                          <widget class="QLineEdit" name="lineEdit_camera_x">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -4161,6 +4176,9 @@ LOG</string>
                         </item>
                         <item>
                          <widget class="QLineEdit" name="lineEdit_camera_y">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -4241,6 +4259,9 @@ LOG</string>
                         </item>
                         <item>
                          <widget class="QLineEdit" name="lineEdit_touch_height">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -4361,6 +4382,9 @@ LOG</string>
                         </item>
                         <item>
                          <widget class="QLineEdit" name="lineEdit_sensor_height">
+                          <property name="use_numpad" stdset="0">
+                            <bool>true</bool>
+                          </property>
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -4532,6 +4556,9 @@ LOG</string>
                            </item>
                            <item>
                             <widget class="QLineEdit" name="lineEdit_search_vel">
+                              <property name="use_numpad" stdset="0">
+                                <bool>true</bool>
+                              </property>
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                <horstretch>0</horstretch>
@@ -4661,6 +4688,9 @@ LOG</string>
                            </item>
                            <item>
                             <widget class="QLineEdit" name="lineEdit_probe_vel">
+                             <property name="use_numpad" stdset="0">
+                              <bool>true</bool>
+                             </property>
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                <horstretch>0</horstretch>
@@ -4790,6 +4820,9 @@ LOG</string>
                            </item>
                            <item>
                             <widget class="QLineEdit" name="lineEdit_max_probe">
+                             <property name="use_numpad" stdset="0">
+                              <bool>true</bool>
+                             </property>
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                <horstretch>0</horstretch>
@@ -4916,6 +4949,9 @@ LOG</string>
                            </item>
                            <item>
                             <widget class="QLineEdit" name="lineEdit_retract_distance">
+                             <property name="use_numpad" stdset="0">
+                              <bool>true</bool>
+                             </property>
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                <horstretch>0</horstretch>
@@ -5033,6 +5069,9 @@ LOG</string>
                            </item>
                            <item>
                             <widget class="QLineEdit" name="lineEdit_z_safe_travel">
+                             <property name="use_numpad" stdset="0">
+                              <bool>true</bool>
+                             </property>
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                <horstretch>0</horstretch>
@@ -5194,6 +5233,9 @@ LOG</string>
                            </item>
                            <item>
                             <widget class="QLineEdit" name="lineEdit_eoffset_count">
+                             <property name="use_numpad" stdset="0">
+                              <bool>true</bool>
+                             </property>
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                <horstretch>0</horstretch>
