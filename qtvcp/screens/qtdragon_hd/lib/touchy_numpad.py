@@ -1,4 +1,7 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
+from qtvcp.core import Status
+
+STATUS = Status()
 
 class TouchyNumpad(QtWidgets.QDialog):
     def __init__(self, title="Enter Value", parent=None):
@@ -27,7 +30,10 @@ class TouchyNumpad(QtWidgets.QDialog):
             ('4', 2, 0, 1, self._handle_digit), ('5', 2, 1, 1, self._handle_digit), ('6', 2, 2, 1, self._handle_digit),
             ('1', 3, 0, 1, self._handle_digit), ('2', 3, 1, 1, self._handle_digit), ('3', 3, 2, 1, self._handle_digit),
             ('0', 4, 0, 1, self._handle_digit), ('.', 4, 1, 1, self._handle_dot),   ('-', 4, 2, 1, self._handle_sign),
-            ('OK', 5, 0, 3, self._handle_ok)
+            ('OK', 5, 0, 3, self._handle_ok),
+            ('X', 6, 0, 1, lambda: self._handle_axis(0)),
+            ('Y', 6, 1, 1, lambda: self._handle_axis(1)),
+            ('Z', 6, 2, 1, lambda: self._handle_axis(2))
         ]
 
         for text, row, col, span, handler in matrix:
@@ -35,12 +41,24 @@ class TouchyNumpad(QtWidgets.QDialog):
             btn.setMinimumSize(70, 70)
             btn.setStyleSheet("font-size: 16pt; font-weight: bold;")
             
+            if text == 'OK': btn.setObjectName("btn_numpad_ok")
+            if text == 'ESC': btn.setObjectName("btn_numpad_esc")
+            
             grid.addWidget(btn, row, col, 1, span)
             
             if handler == self._handle_digit:
                 btn.clicked.connect(lambda checked, t=text, h=handler: h(t))
             else:
                 btn.clicked.connect(lambda checked, h=handler: h())
+
+    def _handle_axis(self, axis_idx):
+        try:
+            stat = STATUS.stat
+            val = stat.position[axis_idx] - stat.g5x_offset[axis_idx] - stat.g92_offset[axis_idx] - stat.tool_offset[axis_idx]
+            prec = 3 if stat.linear_units == 1 else 4
+            self.display.setText(f"{val:.{prec}f}")
+        except:
+            pass
 
     def _handle_digit(self, digit):
         self.display.setText(self.display.text() + digit)
@@ -69,7 +87,6 @@ class TouchyNumpad(QtWidgets.QDialog):
             current = "0"
         if current.endswith('.'):
             current = current[:-1]
-        
         self.value = current
         self.accept()
 
