@@ -21,6 +21,7 @@ from math import sqrt, ceil
 
 from lib.touchy_numpad import TouchyNumpad
 from lib.touchy_numpad import TouchyEventFilter
+from lib.touch_guestures_handler import GraphicsTouchFilter
 
 LOG = logger.getLogger(__name__)
 KEYBIND = Keylookup()
@@ -152,6 +153,7 @@ class HandlerClass:
     def initialized__(self):
         self.w.btn_setup.hide()# maybe temp
         self.init_numpad()
+        self.init_touch_guestures()
         self.init_pins()
         self.init_preferences()
         self.init_widgets()
@@ -255,6 +257,15 @@ class HandlerClass:
                 field.installEventFilter(self.touchy_filter)
 
         self.w.stackedWidget_log.setCurrentIndex(0)
+
+    def init_touch_guestures(self):
+        self.w.gcodegraphics.setAttribute(QtCore.Qt.WA_AcceptTouchEvents, True)
+        
+        self.w.gcodegraphics.grabGesture(QtCore.Qt.PinchGesture)
+        self.w.gcodegraphics.grabGesture(QtCore.Qt.PanGesture)
+
+        self.graphics_touch_filter = GraphicsTouchFilter(self.w.gcodegraphics)
+        self.w.gcodegraphics.installEventFilter(self.graphics_touch_filter)
 
     def status_emit_interceptor(self, signal_name, *args, **kwargs):
         if signal_name != 'dialog-request':
