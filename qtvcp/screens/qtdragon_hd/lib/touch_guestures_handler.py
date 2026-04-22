@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
+from qtvcp.core import Status
+STATUS = Status()
 
 class GraphicsTouchFilter(QtCore.QObject):
     def __init__(self, target_widget, parent=None):
@@ -25,6 +27,12 @@ class GraphicsTouchFilter(QtCore.QObject):
 
                 if not self.is_rotating:
                     self.is_rotating = True
+                    stat = STATUS.stat
+                    conv = 25.4 if stat.linear_units == 1 else 1.0
+                    
+                    self.target.xcenter = stat.actual_position[0] / conv
+                    self.target.ycenter = stat.actual_position[1] / conv
+                    self.target.zcenter = stat.actual_position[2] / conv
                     self.target.recordMouse(cx, cy)
                 else:
                     self.target.rotateOrTranslate(cx, cy)
