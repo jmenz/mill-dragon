@@ -80,17 +80,20 @@ class DynamicMDI(QtWidgets.QWidget):
         main_layout = QtWidgets.QHBoxLayout(self)
         main_layout.setContentsMargins(5, 5, 5, 5)
         
-        left_container = QtWidgets.QWidget()
+        left_container = QtWidgets.QFrame()
+        left_container.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        
         self.left_layout = QtWidgets.QVBoxLayout(left_container)
         self.left_layout.setAlignment(QtCore.Qt.AlignTop)
         
         self.cmd_desc_label = QtWidgets.QLabel("")
-        self.cmd_desc_label.setStyleSheet("font-size: 14pt; font-weight: bold; color: #555;")
+        self.cmd_desc_label.setStyleSheet("font-size: 14pt; font-weight: bold;")
         self.cmd_desc_label.setFixedHeight(25)
         self.left_layout.addWidget(self.cmd_desc_label)
         
         self.cmd_edit = QtWidgets.QLineEdit()
-        self.cmd_edit.setStyleSheet("font-size: 22pt; color: black; background-color: white; height: 60px; border: 2px solid #555;")
+        self.cmd_edit.setStyleSheet("font-size: 22pt;")
+        self.cmd_edit.setMinimumHeight(60)
         self.cmd_edit.setAttribute(QtCore.Qt.WA_InputMethodEnabled, False)
         self.cmd_edit.textChanged.connect(self._on_cmd_changed)
         self.left_layout.addWidget(self.cmd_edit)
@@ -103,6 +106,7 @@ class DynamicMDI(QtWidgets.QWidget):
         scroll = QtWidgets.QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setWidget(left_container)
+        scroll.setFrameShape(QtWidgets.QFrame.NoFrame) 
         main_layout.addWidget(scroll, stretch=1)
         
         right_panel = QtWidgets.QWidget()
@@ -123,17 +127,20 @@ class DynamicMDI(QtWidgets.QWidget):
             btn.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
             btn.setMinimumHeight(70)
             btn.setFocusPolicy(QtCore.Qt.NoFocus)
-            btn.setStyleSheet("font-size: 18pt; font-weight: bold;")
             
             if text == 'BS': 
+                btn.setStyleSheet("font-size: 18pt; font-weight: bold;")
                 btn.clicked.connect(self._handle_backspace)
             elif text == 'NEXT': 
+                btn.setStyleSheet("font-size: 18pt; font-weight: bold;")
                 btn.clicked.connect(self._focus_next)
             elif text == 'EXEC': 
-                btn.clicked.connect(self._execute_cmd)
                 btn.setStyleSheet("font-size: 18pt; font-weight: bold; background-color: #1b5e20; color: white;")
+                btn.clicked.connect(self._execute_cmd)
             else: 
+                btn.setStyleSheet("font-size: 18pt; font-weight: bold;")
                 btn.clicked.connect(lambda checked, t=text: self._send_text(t))
+            
             grid.addWidget(btn, r, c, 1, span)
         
         main_layout.addWidget(right_panel, stretch=1)
@@ -169,10 +176,11 @@ class DynamicMDI(QtWidgets.QWidget):
                     
                     lbl = QtWidgets.QLabel(param)
                     lbl.setFixedWidth(50)
-                    lbl.setStyleSheet("font-size: 18pt; font-weight: bold; color: black;")
+                    lbl.setStyleSheet("font-size: 18pt; font-weight: bold;")
                     
                     edit = QtWidgets.QLineEdit()
-                    edit.setStyleSheet("font-size: 18pt; color: black; background-color: white; height: 45px; border: 1px solid #999;")
+                    edit.setStyleSheet("font-size: 18pt;")
+                    edit.setMinimumHeight(45)
                     edit.setAttribute(QtCore.Qt.WA_InputMethodEnabled, False)
                     edit.textChanged.connect(self._update_target)
                     
