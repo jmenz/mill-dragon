@@ -7,6 +7,8 @@ class DynamicMDI(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.target_input = None
+        self.close_callback = None
+        
         self.gcode_dict = {
             'G0': ['A'], 'G00': ['A'],
             'G1': ['A', 'F'], 'G01': ['A', 'F'],
@@ -153,20 +155,36 @@ class DynamicMDI(QtWidgets.QWidget):
 
     def _execute_cmd(self):
         if not self.target_input: return
+        
         if self.target_input.text().strip():
             self.target_input.returnPressed.emit()
             self.cmd_edit.clear()
             self.target_input.clear()
-            self.cmd_edit.setFocus()
+            
+            if self.close_callback:
+                self.close_callback()
+            else:
+                self.cmd_edit.setFocus()
+
 
 class MdiFocusFilter(QtCore.QObject):
     def __init__(self, stacked_widget, target_widget, parent=None):
         super().__init__(parent)
         self.stacked_widget = stacked_widget
         self.target_widget = target_widget
+        self.prev_index = 0
 
     def eventFilter(self, obj, event):
         if event.type() in (QtCore.QEvent.MouseButtonPress, QtCore.QEvent.FocusIn):
-            self.stacked_widget.setCurrentWidget(self.target_widget)
+            current = self.stacked_widget.currentWidget()
+            
+            if current != self.target_widget:
+                self.prev_index = self.stacked_widget.currentIndex()
+                self.stacked_widget.setCurrentWidget(self.target_widget)
+            
+            self.target_widget.cmd_edit.setFocus()
             return True 
-        return False
+        return False 
+
+    def return_to_previous(self):
+        self.stacked_widget.setCurrentIndex(self.prev_index)

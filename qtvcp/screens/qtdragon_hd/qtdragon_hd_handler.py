@@ -156,6 +156,7 @@ class HandlerClass:
         self.w.btn_setup.hide()# maybe temp
         self.init_numpad()
         self.init_touch_guestures()
+        self.init_dynamic_mdi()
         self.init_pins()
         self.init_preferences()
         self.init_widgets()
@@ -179,24 +180,6 @@ class HandlerClass:
         self.w.spindle_setpoint_rpm.setValue(int(self.spindle_rpm_val))
         self.w.spindle_setpoint_rpm.setToolTip("Target Spindle RPM")
         self.w.spindle_setpoint_rpm.mousePressEvent = self.show_spindle_dialog
-
-
-        self.dyn_mdi = DynamicMDI()
-        
-        # 2. Додаємо його у головний правий стек (stackedWidget_mainTab)
-        self.w.stackedWidget_mainTab.addWidget(self.dyn_mdi)
-                
-        # 3. Прив'язуємо до рідного поля MDI
-        self.dyn_mdi.set_target(self.w.mdiline)
-        
-        # 4. Блокуємо системну клавіатуру
-        self.w.mdiline.setAttribute(QtCore.Qt.WA_InputMethodEnabled, False)
-
-        # 5. Вішаємо фільтр
-        self.mdi_auto_switch = MdiFocusFilter(self.w.stackedWidget_mainTab, self.dyn_mdi)
-        self.w.mdiline.installEventFilter(self.mdi_auto_switch)
-        
-
 
     # hide or initiate 4th/5th AXIS dro/jog
         flag = False
@@ -322,6 +305,18 @@ class HandlerClass:
                 self.spindle_fwd()
             elif STATUS.stat.spindle[0]['direction'] == linuxcnc.SPINDLE_REVERSE:
                 self.spindle_rev()
+
+    def init_dynamic_mdi(self):
+        self.dyn_mdi = DynamicMDI()
+    
+        self.w.stackedWidget_mainTab.addWidget(self.dyn_mdi)
+        self.dyn_mdi.set_target(self.w.mdiline)
+        self.w.mdiline.setAttribute(QtCore.Qt.WA_InputMethodEnabled, False)
+
+        self.mdi_auto_switch = MdiFocusFilter(self.w.stackedWidget_mainTab, self.dyn_mdi)
+        self.w.mdiline.installEventFilter(self.mdi_auto_switch)
+        
+        self.dyn_mdi.close_callback = self.mdi_auto_switch.return_to_previous
 
     #############################
     # SPECIAL FUNCTIONS SECTION #
