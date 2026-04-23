@@ -26,10 +26,10 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = 
-last_loaded_file = 
+last_loaded_directory = /tmp/emcBCD-pl3v9sqz.d
+last_loaded_file = /tmp/emcBCD-pl3v9sqz.d/face.ngc
 style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/themes/dark_green.qss
-RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
+RecentPath_0 = /tmp/emcBCD-pl3v9sqz.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
 RecentSavedPath_0 = /home/cnc/linuxcnc/nc_files/t.ngc
 
@@ -112,7 +112,7 @@ Probe Velocity = 10.0
 Max Probe = 10.0
 Retract Distance = 10.0
 Z Safe Travel = 10.0
-Eoffset count = 50
+Eoffset count = 55
 External offsets = True
 Reload program = True
 Reload tool = True
@@ -127,6 +127,7 @@ Inhibit display mouse selection = True
 Camview xscale = 100
 Camview yscale = 100
 Camview cam number = 0
+Gcode zoom = 2
 
 [PROBE OPTIONS]
 Probe tool = 8

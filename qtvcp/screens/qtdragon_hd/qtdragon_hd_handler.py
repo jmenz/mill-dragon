@@ -389,6 +389,16 @@ class HandlerClass:
         self.cam_yscale_changed(self.w.PREFS_.getpref('Camview yscale', 100, int, 'CUSTOM_FORM_ENTRIES'))
         self.w.camview._camNum = self.w.PREFS_.getpref('Camview cam number', 0, int, 'CUSTOM_FORM_ENTRIES')
 
+        self.gcode_zoom_level = self.w.PREFS_.getpref('Gcode zoom', 0, int, 'CUSTOM_FORM_ENTRIES')
+        if self.gcode_zoom_level > 0:
+            for _ in range(self.gcode_zoom_level):
+                self.w.gcode_viewer.editor.zoomIn()
+                self.w.gcode_editor.editor.zoomIn()
+        elif self.gcode_zoom_level < 0:
+            for _ in range(abs(self.gcode_zoom_level)):
+                self.w.gcode_viewer.editor.zoomOut()
+                self.w.gcode_editor.editor.zoomOut()
+
     def closing_cleanup__(self):
         if not self.w.PREFS_: return
         if self.last_loaded_program is not None:
@@ -424,6 +434,7 @@ class HandlerClass:
         self.w.PREFS_.putpref('Camview xscale', self.cam_xscale_percent(), int, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Camview yscale', self.cam_yscale_percent(), int, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Camview cam number', self.w.camview._camNum, int, 'CUSTOM_FORM_ENTRIES')
+        self.w.PREFS_.putpref('Gcode zoom', getattr(self, 'gcode_zoom_level', 0), int, 'CUSTOM_FORM_ENTRIES')
 
     def init_widgets(self):
         self.w.stackedWidget_mainTab.setCurrentIndex(0)
@@ -1178,9 +1189,14 @@ class HandlerClass:
         self.w.aboutDialog_.showdialog()
 
     def btn_gcode_zoomin_clicked(self):
+        self.gcode_zoom_level = getattr(self, 'gcode_zoom_level', 0) + 1
         self.w.gcode_viewer.editor.zoomIn()
+        self.w.gcode_editor.editor.zoomIn()
+
     def btn_gcode_zoomout_clicked(self):
+        self.gcode_zoom_level = getattr(self, 'gcode_zoom_level', 0) - 1
         self.w.gcode_viewer.editor.zoomOut()
+        self.w.gcode_editor.editor.zoomOut()
 
     def btn_spindle_z_up_clicked(self):
         fval = int(self.w.lineEdit_eoffset_count.text())

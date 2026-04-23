@@ -107,7 +107,9 @@ class TouchyLineEdit(QtWidgets.QLineEdit):
         try:
             val = self.text()
             float(val)
-            dialog.display.setText(val)
+            if (val != 0):
+                dialog.display.setText(val)
+            
         except (ValueError, TypeError):
             pass
             
@@ -129,7 +131,8 @@ class TouchyEventFilter(QtCore.QObject):
                     title = raw_name.replace('_', ' ').title()
                 
                 dialog = TouchyNumpad(title, obj.window())
-                dialog.display.setText(obj.text())
+                if (float(obj.text()) != 0):
+                    dialog.display.setText(obj.text())
                 
                 if dialog.exec_() == QtWidgets.QDialog.Accepted and dialog.value is not None:
                     obj.setText(str(dialog.value))
