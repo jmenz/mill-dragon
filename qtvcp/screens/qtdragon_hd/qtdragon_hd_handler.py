@@ -22,6 +22,8 @@ from math import sqrt, ceil
 from lib.touchy_numpad import TouchyNumpad
 from lib.touchy_numpad import TouchyEventFilter
 from lib.touch_guestures_handler import GraphicsTouchFilter
+from lib.dynamic_mdi import DynamicMDI
+from lib.dynamic_mdi import MdiFocusFilter
 
 LOG = logger.getLogger(__name__)
 KEYBIND = Keylookup()
@@ -177,6 +179,24 @@ class HandlerClass:
         self.w.spindle_setpoint_rpm.setValue(int(self.spindle_rpm_val))
         self.w.spindle_setpoint_rpm.setToolTip("Target Spindle RPM")
         self.w.spindle_setpoint_rpm.mousePressEvent = self.show_spindle_dialog
+
+
+        self.dyn_mdi = DynamicMDI()
+        
+        # 2. Додаємо його у головний правий стек (stackedWidget_mainTab)
+        self.w.stackedWidget_mainTab.addWidget(self.dyn_mdi)
+                
+        # 3. Прив'язуємо до рідного поля MDI
+        self.dyn_mdi.set_target(self.w.mdiline)
+        
+        # 4. Блокуємо системну клавіатуру
+        self.w.mdiline.setAttribute(QtCore.Qt.WA_InputMethodEnabled, False)
+
+        # 5. Вішаємо фільтр
+        self.mdi_auto_switch = MdiFocusFilter(self.w.stackedWidget_mainTab, self.dyn_mdi)
+        self.w.mdiline.installEventFilter(self.mdi_auto_switch)
+        
+
 
     # hide or initiate 4th/5th AXIS dro/jog
         flag = False
@@ -569,7 +589,7 @@ class HandlerClass:
             receiver_parent = receiver_parent.parent()
 
         if isinstance(receiver, QtWidgets.QLineEdit):
-            if not receiver.isReadOnly():
+            if not receiver.isReadOnly() and receiver.testAttribute(QtCore.Qt.WA_InputMethodEnabled):
                 self.w.stackedWidget_dro.setCurrentIndex(1)
         elif isinstance(receiver, QtWidgets.QCommonStyle):
             return

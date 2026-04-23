@@ -26,8 +26,8 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /tmp/emcBCD-975huedx.d
-last_loaded_file = /tmp/emcBCD-975huedx.d/face.ngc
+last_loaded_directory = 
+last_loaded_file = 
 style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/themes/dark_green.qss
 RecentPath_0 = /tmp/emcBCD-cf7yxl7r.d/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
