@@ -26,10 +26,10 @@ RunFromLineDialog_play_sound = True
 RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
-last_loaded_directory = /tmp/emcBCD-pl3v9sqz.d
-last_loaded_file = /tmp/emcBCD-pl3v9sqz.d/face.ngc
+last_loaded_directory = /home/cnc/linuxcnc/nc_files
+last_loaded_file = /home/cnc/linuxcnc/nc_files/face.ngc
 style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/themes/dark_green.qss
-RecentPath_0 = /tmp/emcBCD-pl3v9sqz.d/face.ngc
+RecentPath_0 = /home/cnc/linuxcnc/nc_files/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
 RecentSavedPath_0 = /home/cnc/linuxcnc/nc_files/t.ngc
 
@@ -59,7 +59,7 @@ desktop_notify = True
 notify_max_msgs = 10
 shutdown_check = True
 sound_player_on = False
-MainWindow-geometry = 0 27 1920 1080
+MainWindow-geometry = 0 0 1920 1080
 
 [MCH_MSG_OPTIONS]
 mchnMsg_play_sound = True
@@ -97,7 +97,7 @@ gcodegraphics-user-lat = 0.0
 gcodegraphics-user-lon = 0.0
 
 [CUSTOM_FORM_ENTRIES]
-Tool to load = 0
+Tool to load = 5
 Laser X = 100.0
 Laser Y = -20.0
 Sensor X = 10.0
