@@ -1,7 +1,6 @@
 import os, time
 import linuxcnc
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.Qsci import QsciScintilla
 from qtvcp.widgets.gcode_editor import GcodeEditor as GCODE
 from qtvcp.widgets.mdi_line import MDILine as MDI_WIDGET
 from qtvcp.widgets.tool_offsetview import ToolOffsetView as TOOL_TABLE
@@ -598,10 +597,6 @@ class HandlerClass:
 
         if isinstance(receiver, QtWidgets.QLineEdit):
             if not receiver.isReadOnly() and receiver.testAttribute(QtCore.Qt.WA_InputMethodEnabled):
-                self.w.stackedWidget_dro.setCurrentIndex(1)
-        elif isinstance(receiver, QsciScintilla):
-            # Якщо редактор не в режимі "тільки читання", викликаємо клавіатуру
-            if not receiver.isReadOnly():
                 self.w.stackedWidget_dro.setCurrentIndex(1)
         elif isinstance(receiver, QtWidgets.QCommonStyle):
             return
