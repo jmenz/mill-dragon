@@ -3,6 +3,8 @@ from qtvcp.core import Status
 
 STATUS = Status()
 
+def _(txt): return txt
+
 class DynamicMDI(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -10,12 +12,46 @@ class DynamicMDI(QtWidgets.QWidget):
         self.close_callback = None
         
         self.gcode_dict = {
-            'G0': ['A'], 'G00': ['A'],
-            'G1': ['A', 'F'], 'G01': ['A', 'F'],
-            'G2': ['A', 'I', 'J', 'K', 'R', 'P', 'F'],
-            'G3': ['A', 'I', 'J', 'K', 'R', 'P', 'F'],
-            'G4': ['P'], 'G76': ['Z', 'P', 'I', 'J', 'K', 'R', 'Q', 'H', 'E', 'L'],
-            'M3': ['S'], 'M4': ['S'], 'M6': ['T']
+            'M3' : [_('Spindle CW'), 'S'],
+            'M4' : [_('Spindle CCW'), 'S'],
+            'M6' : [_('Tool change'), 'T'],
+            'M61' : [_('Set tool number'), 'Q'],
+            'M66' : [_('Input control'), 'P', 'E', 'L', 'Q'],
+            'G0' : [_('Straight rapid'), 'A'],
+            'G00' : [_('Straight rapid'), 'A'],
+            'G1' : [_('Straight feed'), 'A', 'F'],
+            'G01' : [_('Straight feed'), 'A', 'F'],
+            'G2' : [_('Arc CW'), 'A', 'I', 'J', 'K', 'R', 'P', 'F'],
+            'G02' : [_('Arc CW'), 'A', 'I', 'J', 'K', 'R', 'P', 'F'],
+            'G3' : [_('Arc CCW'), 'A', 'I', 'J', 'K', 'R', 'P', 'F'],
+            'G03' : [_('Arc CCW'), 'A', 'I', 'J', 'K', 'R', 'P', 'F'],
+            'G4' : [_('Dwell'), 'P'],
+            'G04' : [_('Dwell'), 'P'],
+            'G10' : [_('Setup'), 'L', 'P', 'A', 'Q', 'R', 'J', 'I'],
+            'G33' : [_('Spindle synchronized feed'), 'A', 'K'],
+            'G33.1' : [_('Rigid tap'), 'Z', 'K'],
+            'G38.2' : [_('Probe'), 'A', 'F'],
+            'G38.3' : [_('Probe'), 'A', 'F'],
+            'G38.4' : [_('Probe'), 'A', 'F'],
+            'G38.5' : [_('Probe'), 'A', 'F'],
+            'G41' : [_('Radius compensation left'), 'D'],
+            'G42' : [_('Radius compensation right'), 'D'],
+            'G41.1' : [_('Radius compensation left, immediate'), 'D', 'L'],
+            'G42.1' : [_('Radius compensation right, immediate'), 'D', 'L'],
+            'G43' : [_('Tool length offset'), 'H'],
+            'G43.1' : [_('Tool length offset immediate'), 'A'],
+            'G43.2' : [_('Tool length offset additional'), 'H', 'A'],
+            'G53' : [_('Motion in unoffset coordinates'), 'G', 'A', 'F'],
+            'G64' : [_('Continuous mode'), 'P', 'Q'],
+            'G76' : [_('Thread'), 'Z', 'P', 'I', 'J', 'K', 'R', 'Q', 'H', 'E', 'L'],
+            'G81' : [_('Drill'), 'A', 'R', 'L', 'F'],
+            'G82' : [_('Drill with dwell'), 'A', 'R', 'L', 'P', 'F'],
+            'G83' : [_('Peck drill'), 'A', 'R', 'L', 'Q', 'F'],
+            'G73' : [_('Chip-break drill'), 'A', 'R', 'L', 'Q', 'F'],
+            'G85' : [_('Bore'), 'A', 'R', 'L', 'F'],
+            'G89' : [_('Bore with dwell'), 'A', 'R', 'L', 'P', 'F'],
+            'G92' : [_('Offset all coordinate systems'), 'A'],
+            'G96' : [_('CSS Mode'), 'S', 'D'],
         }
         self.arg_fields = {}
         self._init_ui()
@@ -47,6 +83,12 @@ class DynamicMDI(QtWidgets.QWidget):
         left_container = QtWidgets.QWidget()
         self.left_layout = QtWidgets.QVBoxLayout(left_container)
         self.left_layout.setAlignment(QtCore.Qt.AlignTop)
+        
+        # Лейбл для опису команди
+        self.cmd_desc_label = QtWidgets.QLabel("")
+        self.cmd_desc_label.setStyleSheet("font-size: 14pt; font-weight: bold; color: #555;")
+        self.cmd_desc_label.setFixedHeight(25)
+        self.left_layout.addWidget(self.cmd_desc_label)
         
         self.cmd_edit = QtWidgets.QLineEdit()
         self.cmd_edit.setStyleSheet("font-size: 22pt; color: black; background-color: white; height: 60px; border: 2px solid #555;")
@@ -117,8 +159,10 @@ class DynamicMDI(QtWidgets.QWidget):
         
         cmd = text.strip().upper()
         if cmd in self.gcode_dict:
+            self.cmd_desc_label.setText(self.gcode_dict[cmd][0])
+            
             axes = self._get_active_axes()
-            for p in self.gcode_dict[cmd]:
+            for p in self.gcode_dict[cmd][1:]:
                 params = axes if p == 'A' else [p]
                 for param in params:
                     row = QtWidgets.QWidget()
@@ -133,6 +177,8 @@ class DynamicMDI(QtWidgets.QWidget):
                     l.addWidget(lbl); l.addWidget(edit)
                     self.args_layout.addWidget(row)
                     self.arg_fields[param] = edit
+        else:
+            self.cmd_desc_label.setText("")
         
         self._update_target()
 
@@ -159,6 +205,7 @@ class DynamicMDI(QtWidgets.QWidget):
         if self.target_input.text().strip():
             self.target_input.returnPressed.emit()
             self.cmd_edit.clear()
+            self.cmd_desc_label.setText("")
             self.target_input.clear()
             
             if self.close_callback:
