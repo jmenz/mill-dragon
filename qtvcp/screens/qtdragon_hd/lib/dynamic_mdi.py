@@ -84,7 +84,6 @@ class DynamicMDI(QtWidgets.QWidget):
         self.left_layout = QtWidgets.QVBoxLayout(left_container)
         self.left_layout.setAlignment(QtCore.Qt.AlignTop)
         
-        # Лейбл для опису команди
         self.cmd_desc_label = QtWidgets.QLabel("")
         self.cmd_desc_label.setStyleSheet("font-size: 14pt; font-weight: bold; color: #555;")
         self.cmd_desc_label.setFixedHeight(25)
@@ -160,7 +159,6 @@ class DynamicMDI(QtWidgets.QWidget):
         cmd = text.strip().upper()
         if cmd in self.gcode_dict:
             self.cmd_desc_label.setText(self.gcode_dict[cmd][0])
-            
             axes = self._get_active_axes()
             for p in self.gcode_dict[cmd][1:]:
                 params = axes if p == 'A' else [p]
@@ -168,27 +166,34 @@ class DynamicMDI(QtWidgets.QWidget):
                     row = QtWidgets.QWidget()
                     l = QtWidgets.QHBoxLayout(row)
                     l.setContentsMargins(0, 2, 0, 2)
+                    
                     lbl = QtWidgets.QLabel(param)
-                    lbl.setFixedWidth(50); lbl.setStyleSheet("font-size: 18pt; font-weight: bold; color: black;")
+                    lbl.setFixedWidth(50)
+                    lbl.setStyleSheet("font-size: 18pt; font-weight: bold; color: black;")
+                    
                     edit = QtWidgets.QLineEdit()
                     edit.setStyleSheet("font-size: 18pt; color: black; background-color: white; height: 45px; border: 1px solid #999;")
                     edit.setAttribute(QtCore.Qt.WA_InputMethodEnabled, False)
                     edit.textChanged.connect(self._update_target)
-                    l.addWidget(lbl); l.addWidget(edit)
+                    
+                    l.addWidget(lbl)
+                    l.addWidget(edit)
                     self.args_layout.addWidget(row)
                     self.arg_fields[param] = edit
         else:
             self.cmd_desc_label.setText("")
-        
+            
         self._update_target()
 
     def _send_text(self, text):
         f = QtWidgets.QApplication.focusWidget()
-        if isinstance(f, QtWidgets.QLineEdit): f.insert(text)
+        if isinstance(f, QtWidgets.QLineEdit):
+            f.insert(text)
 
     def _handle_backspace(self):
         f = QtWidgets.QApplication.focusWidget()
-        if isinstance(f, QtWidgets.QLineEdit): f.backspace()
+        if isinstance(f, QtWidgets.QLineEdit):
+            f.backspace()
 
     def _focus_next(self):
         f = QtWidgets.QApplication.focusWidget()
@@ -202,16 +207,19 @@ class DynamicMDI(QtWidgets.QWidget):
     def _execute_cmd(self):
         if not self.target_input: return
         
-        if self.target_input.text().strip():
+        if self.cmd_edit.text().strip():
+            self._update_target()
+        
+        command_text = self.target_input.text().strip()
+        if command_text:
             self.target_input.returnPressed.emit()
             self.cmd_edit.clear()
             self.cmd_desc_label.setText("")
             self.target_input.clear()
+            self.target_input.clearFocus()
             
             if self.close_callback:
                 self.close_callback()
-            else:
-                self.cmd_edit.setFocus()
 
 
 class MdiFocusFilter(QtCore.QObject):
@@ -222,16 +230,18 @@ class MdiFocusFilter(QtCore.QObject):
         self.prev_index = 0
 
     def eventFilter(self, obj, event):
-        if event.type() in (QtCore.QEvent.MouseButtonPress, QtCore.QEvent.FocusIn):
+        if event.type() == QtCore.QEvent.FocusIn:
             current = self.stacked_widget.currentWidget()
             
             if current != self.target_widget:
                 self.prev_index = self.stacked_widget.currentIndex()
                 self.stacked_widget.setCurrentWidget(self.target_widget)
             
-            self.target_widget.cmd_edit.setFocus()
-            return True 
-        return False 
+            QtCore.QTimer.singleShot(50, self.target_widget.cmd_edit.setFocus)
+            
+            return False 
+            
+        return False
 
     def return_to_previous(self):
         self.stacked_widget.setCurrentIndex(self.prev_index)
