@@ -2784,12 +2784,10 @@
                                                                                                 </color>
                                                                                             </property>
                                                                                             <property name="true_state_string" stdset="0">
-                                                                                                <string>SYSTEM
-                                                                                                    LOG</string>
+                                                                                                <string>SYSTEM&#10;LOG</string>
                                                                                             </property>
                                                                                             <property name="false_state_string" stdset="0">
-                                                                                                <string>MACHINE
-                                                                                                    LOG</string>
+                                                                                                <string>MACHINE&#10;LOG</string>
                                                                                             </property>
                                                                                             <property name="true_python_cmd_string" stdset="0">
                                                                                                 <string>INSTANCE.stackedWidget_log.setCurrentIndex(1)</string>
@@ -2914,12 +2912,10 @@
                                                                                                 </color>
                                                                                             </property>
                                                                                             <property name="true_state_string" stdset="0">
-                                                                                                <string>SYSTEM
-                                                                                                    LOG</string>
+                                                                                                <string>SYSTEM&#10;LOG</string>
                                                                                             </property>
                                                                                             <property name="false_state_string" stdset="0">
-                                                                                                <string>MACHINE
-                                                                                                    LOG</string>
+                                                                                                <string>MACHINE&#10;LOG</string>
                                                                                             </property>
                                                                                             <property name="true_python_cmd_string" stdset="0">
                                                                                                 <string>INSTANCE._NOTICE.show_last()</string>
@@ -10335,8 +10331,7 @@
                                                                                 <string>Use G30.1 to set G30 location</string>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>GO TO
-                                                                                    G30</string>
+                                                                                <string>GO TO&#10;G30</string>
                                                                             </property>
                                                                             <property name="indicator_option" stdset="0">
                                                                                 <bool>false</bool>
@@ -10528,8 +10523,7 @@
                                                                                 <string>Go to Home position</string>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>GO
-                                                                                    HOME</string>
+                                                                                <string>GO&#10;HOME</string>
                                                                             </property>
                                                                             <property name="location" stdset="0">
                                                                                 <string>home</string>
@@ -10567,8 +10561,7 @@
                                                                                 <string>Toggle laser crosshairs</string>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>LASER
-                                                                                    OFF</string>
+                                                                                <string>LASER&#10;OFF</string>
                                                                             </property>
                                                                             <property name="checkable">
                                                                                 <bool>true</bool>
@@ -10599,12 +10592,10 @@
                                                                                 <double>0.200000000000000</double>
                                                                             </property>
                                                                             <property name="true_state_string" stdset="0">
-                                                                                <string>LASER
-                                                                                    ON</string>
+                                                                                <string>LASER&#10;ON</string>
                                                                             </property>
                                                                             <property name="false_state_string" stdset="0">
-                                                                                <string>LASER
-                                                                                    OFF</string>
+                                                                                <string>LASER&#10;OFF</string>
                                                                             </property>
                                                                             <property name="true_python_cmd_string" stdset="0">
                                                                                 <string>print&quot;Laser crosshair turned on&quot;</string>
@@ -10638,8 +10629,7 @@
                                                                                 <string>Set laser crosshair reference</string>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>REF
-                                                                                    LASER</string>
+                                                                                <string>REF&#10;LASER</string>
                                                                             </property>
                                                                         </widget>
                                                                     </item>
@@ -10674,8 +10664,7 @@
                                                                                 <string>Tool touchoff to tool sensor</string>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>TOOL
-                                                                                    SENSOR</string>
+                                                                                <string>TOOL&#10;SENSOR</string>
                                                                             </property>
                                                                             <property name="sensor" stdset="0">
                                                                                 <string>_toolsensor_</string>
@@ -10706,8 +10695,7 @@
                                                                                 <string>Tool touchoff to touchplate</string>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>TOUCH
-                                                                                    PLATE</string>
+                                                                                <string>TOUCH&#10;PLATE</string>
                                                                             </property>
                                                                             <property name="sensor" stdset="0">
                                                                                 <string>_touchplate_</string>
@@ -10745,8 +10733,7 @@
                                                                                 <string>Go to Tool Sensor location</string>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>GO TO
-                                                                                    SENSOR</string>
+                                                                                <string>GO TO&#10;SENSOR</string>
                                                                             </property>
                                                                             <property name="location" stdset="0">
                                                                                 <string>sensor</string>
@@ -10774,8 +10761,7 @@
                                                                                 </size>
                                                                             </property>
                                                                             <property name="text">
-                                                                                <string>REF
-                                                                                    CAMERA</string>
+                                                                                <string>REF&#10;CAMERA</string>
                                                                             </property>
                                                                         </widget>
                                                                     </item>
@@ -12014,8 +12000,7 @@
                                                                                                         <enum>Qt::StrongFocus</enum>
                                                                                                     </property>
                                                                                                     <property name="text">
-                                                                                                        <string>GO TO
-                                                                                                            ZERO</string>
+                                                                                                        <string>GO TO&#10;ZERO</string>
                                                                                                     </property>
                                                                                                     <property name="indicator_option" stdset="0">
                                                                                                         <bool>false</bool>
@@ -13166,8 +13151,7 @@
                                                                                                         <enum>Qt::StrongFocus</enum>
                                                                                                     </property>
                                                                                                     <property name="text">
-                                                                                                        <string>GO TO
-                                                                                                            ZERO</string>
+                                                                                                        <string>GO TO&#10;ZERO</string>
                                                                                                     </property>
                                                                                                     <property name="indicator_option" stdset="0">
                                                                                                         <bool>false</bool>

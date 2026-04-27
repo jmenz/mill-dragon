@@ -1,6 +1,6 @@
 [DIALOG_GEOMETRY]
 AboutDialog-geometry = 910 539 300 150
-LncMessage-geometry = 910 539 340 102
+LncMessage-geometry = 910 539 232 154
 ToolChangeDialog-geometry = 910 539 340 239
 basicProbeHelpDialog-geometry = 660 254 600 600
 axisToolButtonDialog_CALCULATOR = 910 539 472 376
@@ -98,11 +98,11 @@ gcodegraphics-user-lat = 0.0
 gcodegraphics-user-lon = 0.0
 
 [CUSTOM_FORM_ENTRIES]
-Tool to load = 0
+Tool to load = 5
 Laser X = 100.0
 Laser Y = -20.0
-Sensor X = 10.0
-Sensor Y = 10.0
+Sensor X = 80.0
+Sensor Y = 15.0
 Camera X = 10.0
 Camera Y = 10.0
 Work Height = 90.0
@@ -117,9 +117,9 @@ Eoffset count = 55
 External offsets = True
 Reload program = True
 Reload tool = True
-Use keyboard = False
-Use tool sensor = False
-Use tool touchplate = False
+Use keyboard = True
+Use tool sensor = True
+Use tool touchplate = True
 Run from line = True
 Use virtual keyboard = True
 Use camera = False
@@ -161,8 +161,8 @@ ps_side_edge_length = 5.0
 ps_probe_height = 20.0
 ps_block_height = 20.0
 ps_offs_x = 1.0
-ps_offs_y = 0.0
-ps_offs_z = 0.0
+ps_offs_y = 10.0
+ps_offs_z = -50.0
 ps_offs_angle = 0.0
 ps_probe_rapid_vel = 80.0
 use_tool_measurement = True

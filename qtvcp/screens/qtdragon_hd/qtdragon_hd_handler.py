@@ -25,6 +25,11 @@ from lib.touch_guestures_handler import GraphicsTouchFilter
 from lib.dynamic_mdi import DynamicMDI
 from lib.dynamic_mdi import MdiFocusFilter
 
+import debugpy
+
+debugpy.listen(("0.0.0.0", 5678))
+# debugpy.wait_for_client()
+
 LOG = logger.getLogger(__name__)
 KEYBIND = Keylookup()
 AUX_PRGM = Aux_program_loader()
@@ -291,6 +296,9 @@ class HandlerClass:
                     self.status_emit_original('general', mess)
                 except ValueError:
                     pass
+                return
+            
+        self.status_emit_original(signal_name, *args, **kwargs)
 
     def show_spindle_dialog(self, event):
         dialog = TouchyNumpad("Set Spindle RPM", self.w)
