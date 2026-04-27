@@ -44,3 +44,8 @@ sudo libinput debug-events
 libinput-gestures -d
 
 echo $XDG_SESSION_TYPE
+
+
+
+
+QT_XCB_NO_XI2=1 linuxcnc

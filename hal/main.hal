@@ -45,6 +45,8 @@ net x-pos-cmd joint.0.motor-pos-cmd joint.0.motor-pos-fb   #temp
 net y-pos-cmd joint.1.motor-pos-cmd joint.1.motor-pos-fb   #temp
 net z-pos-cmd joint.2.motor-pos-cmd joint.2.motor-pos-fb
 
+net a-pos-cmd joint.3.motor-pos-cmd joint.3.motor-pos-fb
+
 
 net estop-out <= iocontrol.0.user-enable-out
 net estop-out => iocontrol.0.emc-enable-in

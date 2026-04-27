@@ -28,7 +28,7 @@ RunFromLineDialog_sound_type = READY
 [BOOK_KEEPING]
 last_loaded_directory = /home/cnc/linuxcnc/nc_files
 last_loaded_file = /home/cnc/linuxcnc/nc_files/face.ngc
-style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/themes/dark_green.qss
+style_QSS_Path = /home/cnc/linuxcnc/configs/mill-dragon/mill_dragon.qss
 RecentPath_0 = /home/cnc/linuxcnc/nc_files/face.ngc
 last_saved_directory = /home/cnc/linuxcnc/nc_files
 RecentSavedPath_0 = /home/cnc/linuxcnc/nc_files/t.ngc
@@ -87,6 +87,7 @@ notify_start_detail = This option can be changed in the preference file
 notify_start_timeout = 5
 
 [FILEMANAGER_JUMPLIST]
+nc_files = /home/cnc/linuxcnc/nc_files
 
 [SCREEN_CONTROL_LAST_SETTING]
 gcodegraphics-user-view = p
@@ -97,7 +98,7 @@ gcodegraphics-user-lat = 0.0
 gcodegraphics-user-lon = 0.0
 
 [CUSTOM_FORM_ENTRIES]
-Tool to load = 5
+Tool to load = 0
 Laser X = 100.0
 Laser Y = -20.0
 Sensor X = 10.0

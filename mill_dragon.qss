@@ -239,8 +239,12 @@ QTreeView {
     qproperty-alternatingRowColors: false;
     border: 1px solid black;
     gridline-color: black;
-    font: 10pt "Lato Heavy";
+    font: 16pt "Lato Heavy";
     color: #e0e0e0;
+}
+QTableView::indicator {
+    width: 30px;
+    height: 30px;
 }
 
 QTableView::item:hover,
@@ -265,14 +269,14 @@ QHeaderView {
     background-color: #404040;
     margin: 0px;
     padding: 0px;
-    font: 14px "Lato Heavy";
+    font: 16px "Lato Heavy";
     color: #9ad58d;
 }
 
 QHeaderView::section {
     background-color: #404040;
     color: #9ad58d;
-    padding: 5px;
+    padding: 6px;
     text-align: center;
     border: 1px solid #202020;
 }

@@ -527,9 +527,9 @@ class HandlerClass:
         self.w.gauge_spindle.set_threshold(self.min_spindle_rpm)
         self.w.gauge_spindle.set_label("RPM")
 
-        # hide user tab button if no user tabs
-        if self.w.stackedWidget_mainTab.count() == 10:
-            self.w.btn_user.hide()
+        #stretch offset table
+        if hasattr(self.w, 'offset_table'):
+            self.w.offset_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
     def init_probe(self):
         probe = INFO.get_error_safe_setting('PROBE', 'USE_PROBE', 'none').lower()

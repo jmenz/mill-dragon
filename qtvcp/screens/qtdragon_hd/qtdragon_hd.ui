@@ -960,40 +960,6 @@
                                                             </widget>
                                                         </item>
                                                         <item>
-                                                            <widget class="QPushButton" name="btn_user">
-                                                                <property name="sizePolicy">
-                                                                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                                                        <horstretch>0</horstretch>
-                                                                        <verstretch>0</verstretch>
-                                                                    </sizepolicy>
-                                                                </property>
-                                                                <property name="minimumSize">
-                                                                    <size>
-                                                                        <width>80</width>
-                                                                        <height>40</height>
-                                                                    </size>
-                                                                </property>
-                                                                <property name="maximumSize">
-                                                                    <size>
-                                                                        <width>80</width>
-                                                                        <height>40</height>
-                                                                    </size>
-                                                                </property>
-                                                                <property name="text">
-                                                                    <string>USER</string>
-                                                                </property>
-                                                                <property name="checkable">
-                                                                    <bool>true</bool>
-                                                                </property>
-                                                                <property name="index" stdset="0">
-                                                                    <number>10</number>
-                                                                </property>
-                                                                <attribute name="buttonGroup">
-                                                                    <string notr="true">page_buttonGroup</string>
-                                                                </attribute>
-                                                            </widget>
-                                                        </item>
-                                                        <item>
                                                             <spacer name="horizontalSpacer">
                                                                 <property name="orientation">
                                                                     <enum>Qt::Horizontal</enum>
@@ -1229,8 +1195,7 @@
                                                                                                 <string>Hold to save current view</string>
                                                                                             </property>
                                                                                             <property name="text">
-                                                                                                <string>User
-View</string>
+                                                                                                <string>User&#10;View</string>
                                                                                             </property>
                                                                                             <property name="checkable">
                                                                                                 <bool>true</bool>
@@ -7334,8 +7299,7 @@ View</string>
                                                                     <string>Toggle machine state</string>
                                                                 </property>
                                                                 <property name="text">
-                                                                    <string>MACHINE
-                                                                        OFF</string>
+                                                                    <string>MACHINE&#10;OFF</string>
                                                                 </property>
                                                                 <property name="iconSize">
                                                                     <size>
@@ -7391,12 +7355,10 @@ View</string>
                                                                     <number>6</number>
                                                                 </property>
                                                                 <property name="true_state_string" stdset="0">
-                                                                    <string>MACHINE
-                                                                        ON</string>
+                                                                    <string>MACHINE&#10;ON</string>
                                                                 </property>
                                                                 <property name="false_state_string" stdset="0">
-                                                                    <string>MACHINE
-                                                                        OFF</string>
+                                                                    <string>MACHINE&#10;OFF</string>
                                                                 </property>
                                                                 <property name="is_on_status" stdset="0">
                                                                     <bool>true</bool>
