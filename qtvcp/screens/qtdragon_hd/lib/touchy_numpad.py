@@ -14,7 +14,7 @@ class TouchyNumpad(QtWidgets.QDialog):
         layout = QtWidgets.QVBoxLayout(self)
         
         self.display = QtWidgets.QLineEdit()
-        self.display.setReadOnly(True)
+        self.display.setReadOnly(False)
         self.display.setAlignment(QtCore.Qt.AlignRight)
         self.display.setMinimumHeight(60)
         self.display.setStyleSheet("font-size: 20pt;")
@@ -50,6 +50,23 @@ class TouchyNumpad(QtWidgets.QDialog):
                 btn.clicked.connect(lambda checked, t=text, h=handler: h(t))
             else:
                 btn.clicked.connect(lambda checked, h=handler: h())
+
+        self._init_shotcut()
+
+    def _init_shotcut(self):
+        self.display.returnPressed.connect(self._handle_ok)
+        
+        self.enter_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Return), self)
+        self.enter_shortcut.setContext(QtCore.Qt.WidgetWithChildrenShortcut)
+        self.enter_shortcut.activated.connect(self._handle_ok)
+
+        self.numpad_enter_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Enter), self)
+        self.numpad_enter_shortcut.setContext(QtCore.Qt.WidgetWithChildrenShortcut)
+        self.numpad_enter_shortcut.activated.connect(self._handle_ok)
+
+        self.escape_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self)
+        self.escape_shortcut.setContext(QtCore.Qt.WidgetWithChildrenShortcut)
+        self.escape_shortcut.activated.connect(self.reject)
 
     def _handle_axis(self, axis_idx):
         try:
