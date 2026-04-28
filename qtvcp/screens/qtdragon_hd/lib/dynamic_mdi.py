@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 from qtvcp.core import Status
 
 STATUS = Status()
@@ -55,6 +55,7 @@ class DynamicMDI(QtWidgets.QWidget):
         }
         self.arg_fields = {}
         self._init_ui()
+        self._init_shotcuts()
 
     def set_target(self, line_edit):
         self.target_input = line_edit
@@ -144,6 +145,19 @@ class DynamicMDI(QtWidgets.QWidget):
             grid.addWidget(btn, r, c, 1, span)
         
         main_layout.addWidget(right_panel, stretch=1)
+
+    def _init_shotcuts(self):
+        self.tab_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Tab), self)
+        self.tab_shortcut.setContext(QtCore.Qt.WidgetWithChildrenShortcut)
+        self.tab_shortcut.activated.connect(self._focus_next)
+
+        self.enter_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Return), self)
+        self.enter_shortcut.setContext(QtCore.Qt.WidgetWithChildrenShortcut)
+        self.enter_shortcut.activated.connect(self._execute_cmd)
+
+        self.numpad_enter_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Enter), self)
+        self.numpad_enter_shortcut.setContext(QtCore.Qt.WidgetWithChildrenShortcut)
+        self.numpad_enter_shortcut.activated.connect(self._execute_cmd)
 
     def _update_target(self):
         if not self.target_input: return
