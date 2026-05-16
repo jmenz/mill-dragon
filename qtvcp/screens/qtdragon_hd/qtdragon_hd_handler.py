@@ -25,9 +25,9 @@ from lib.touch_guestures_handler import GraphicsTouchFilter
 from lib.dynamic_mdi import DynamicMDI
 from lib.dynamic_mdi import MdiFocusFilter
 
-import debugpy
+# import debugpy
 
-debugpy.listen(("0.0.0.0", 5678))
+# debugpy.listen(("0.0.0.0", 5678))
 # debugpy.wait_for_client()
 
 LOG = logger.getLogger(__name__)
@@ -297,6 +297,7 @@ class HandlerClass:
                 except ValueError:
                     pass
                 return
+            return
             
         self.status_emit_original(signal_name, *args, **kwargs)
 

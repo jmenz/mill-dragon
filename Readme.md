@@ -1,5 +1,7 @@
 INIT
 
+sudo halcompile --install comp/RP1.c
+
 
 TOUCH:
 sudo apt install evtest
