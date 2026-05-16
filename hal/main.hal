@@ -2,49 +2,36 @@
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS
 
-
+# ----MESA----
 # loadrt hostmot2
 # loadrt hm2_eth board_ip=192.168.1.121
 # setp hm2_7i95.0.watchdog.timeout_ns 2500000
 
+# ----RPI GPIO----
 loadrt RP1 gpio_in=26,19,13 gpio_out=21,20 gpio_pull_up=26,19 gpio_pull_down=13
-
-
 
 loadrt encoder names=screen_mpg
 
 
-# addf hm2_7i95.0.read            servo-thread
+# addf hm2_7i95.0.read          servo-thread
 addf RP1.read-gpio            base-thread
 addf encoder.update-counters  base-thread
 
 addf motion-command-handler   servo-thread
 addf motion-controller        servo-thread
+# addf hm2_7i95.0.write         servo-thread
 addf RP1.write-gpio           servo-thread
 addf encoder.capture-position servo-thread
-#addf hm2_7i95.0.write          servo-thread
 
 
 ### SCREEN MPG ###
 net screen-mpg-A screen_mpg.phase-A => RP1.in-26
 net screen-mpg-B screen_mpg.phase-B => RP1.in-19
 
-#net x-pos-cmd joint.0.motor-pos-cmd  => stm32_motion.0.pos-cmd
-#net x-vel-cmd joint.0.vel-cmd => stm32_motion.0.vel-cmd
-#net x-pos-fb  stm32_motion.0.pos-fb => joint.0.motor-pos-fb
-#net x-enable => joint.0.amp-enable-out => stm32_motion.0.enable
 
 net x-pos-cmd joint.0.motor-pos-cmd joint.0.motor-pos-fb   #temp
-
-
-#net z-pos-cmd joint.1.motor-pos-cmd  => stm32_motion.1.pos-cmd
-#net z-vel-cmd joint.1.vel-cmd => stm32_motion.1.vel-cmd
-#net z-pos-fb  stm32_motion.1.pos-fb => joint.1.motor-pos-fb
-#net z-enable => joint.1.amp-enable-out => stm32_motion.1.enable
-
-net y-pos-cmd joint.1.motor-pos-cmd joint.1.motor-pos-fb   #temp
+net y-pos-cmd joint.1.motor-pos-cmd joint.1.motor-pos-fb
 net z-pos-cmd joint.2.motor-pos-cmd joint.2.motor-pos-fb
-
 net a-pos-cmd joint.3.motor-pos-cmd joint.3.motor-pos-fb
 
 

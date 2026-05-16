@@ -1,16 +1,26 @@
-INIT
+# Linuxcnc mill controller
 
+## Disclaimer:
+This is my personal hobby project. You can use it or any of its parts at your own risk. I'm not responsible for any damage to your equipment or your injury.
+
+### install custom hall components:
+
+```
 sudo halcompile --install comp/RP1.c
+```
 
 
 TOUCH:
+```
 sudo apt install evtest
+```
 
 dev name:
 ILITEK ILITEK-TP
 
-
+```
 sudo apt install libinput-bin libinput-tools xserver-xorg-input-libinput
+```
 
 sudo nano /etc/X11/xorg.conf.d/99-libinput-touch.conf
 ***
@@ -34,8 +44,10 @@ Section "InputClass"
 EndSection
 *** 
 
+```
 sudo apt install unclutter-xfixes
 unclutter --hide-on-touch
+```
 
 testing:
 
@@ -48,6 +60,12 @@ libinput-gestures -d
 echo $XDG_SESSION_TYPE
 
 
-
-
 QT_XCB_NO_XI2=1 linuxcnc
+
+
+### Additional:
+
+Install Py debugger
+```
+sudo apt install python3-debugpy
+```
